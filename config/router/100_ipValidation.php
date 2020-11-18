@@ -3,20 +3,6 @@
  * Load the Ylvan/controller
  */
 
-// return [
-//     // Path where to mount the routes, is added to each route path.
-//     "mount" => "ip",
-
-//     // All routes in order
-//     "routes" => [
-//         [
-//             "info" => "Just say hi with a string.",
-//             "method" => null,
-//             "path" => "validate",
-//             "handler" => "\Anax\Controller\ValidateIpController",
-//         ],
-//     ]
-// ];
 
 
 return [
