@@ -49,10 +49,10 @@ class ValidateIpController implements ContainerInjectableInterface
         $page = $this->di->get("page");
         $session = $this->di->get("session");
 
-        $session->get("ipToValidate", null);
-        $session->get("ipv4", null);
-        $session->get("ipv6", null);
-        $session->get("domainName", null);
+        $session->set("ipToValidate", null);
+        $session->set("ipv4", null);
+        $session->set("ipv6", null);
+        $session->set("domainName", null);
 
         $page->add("ip/validate", [
             "content" => "Validera en ip-adress",
@@ -67,7 +67,10 @@ class ValidateIpController implements ContainerInjectableInterface
         return $page->render();
     }
 
-    public function opstAction() : object
+    /**
+     * handle validation from post request
+     */
+    public function validateAction() : object
     {
         $title = "validera ip adresser";
 
@@ -82,10 +85,17 @@ class ValidateIpController implements ContainerInjectableInterface
 
         $ipv4 = $this->ipv4($ipToValidate);
         $ipv6 = $this->ipv6($ipToValidate);
-        $domain = $this->hasDomainName($ipToValidate);
-        $session->set("ipv4", null);
-        $session->set("ipv6", null);
-        $session->set("domainName", null);
+        // $domain = $this->hasDomainName($ipToValidate);
+        $session->set("ipv4", $ipv4);
+        $session->set("ipv6", $ipv6);
+
+         // check if it's a valid ip
+        if ($ipv4 == true || $ipv6 == true) {
+            // code for domain name check
+            // return gethostbyaddr($ipToValidate);
+            $session->set("domainName", gethostbyaddr($ipToValidate));
+        }
+        // $session->set("domainName", $domain);
 
 
         $data = [
@@ -137,17 +147,17 @@ class ValidateIpController implements ContainerInjectableInterface
     /**
      * check if ip have a domain name
      */
-    public function hasDomainName($ip)
-    {
-        $ipv4 = $this->ipv4($ip);
-        $ipv6 = $this->ipv6($ip);
+    // public function hasDomainName($ip)
+    // {
+    //     $ipv4 = $this->ipv4($ip);
+    //     $ipv6 = $this->ipv6($ip);
 
-        // check if it's a valid ip
-        if ($ipv4 == true || $ipv6 == true) {
-            // code for domain name check
-            return gethostbyaddr($ip);
-        }
-    }
+    //     // check if it's a valid ip
+    //     if ($ipv4 == true || $ipv6 == true) {
+    //         // code for domain name check
+    //         return gethostbyaddr($ip);
+    //     }
+    // }
 
 
     /**
