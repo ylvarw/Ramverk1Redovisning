@@ -33,10 +33,10 @@ class ValidateIpController implements ContainerInjectableInterface
             $ipv6 = $this->ipv6($ipToValidate);
 
             // check if it's a valid ip of any type
-            if (filter_var($ipToValidate, FILTER_VALIDATE_IP)) {
+            // if (filter_var($ipToValidate, FILTER_VALIDATE_IP)) {
                 // code for domain name check
-                $domain = gethostbyaddr($ipToValidate);
-            }
+            $domain = $this->domainName($ipToValidate);
+            // }
         }
 
         $page->add("ip/validate", [
@@ -58,7 +58,7 @@ class ValidateIpController implements ContainerInjectableInterface
     /**
      * check if ipv4 is valid
      */
-    private function ipv4($ip)
+    public function ipv4($ip) : string
     {
         // code for ip check
         if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
@@ -71,7 +71,7 @@ class ValidateIpController implements ContainerInjectableInterface
     /**
      * check if ipv6 is valid
      */
-    private function ipv6($ip)
+    public function ipv6($ip) : string
     {
         // code for ip check
         if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
@@ -82,73 +82,101 @@ class ValidateIpController implements ContainerInjectableInterface
     }
 
 
-
+    
     /**
-     * This sample method dumps the content of $di.
-     * GET mountpoint/dump-app
-     *
-     * @return string
+     * check if ip have a domain name
      */
-    public function dumpDiActionGet() : string
+    public function domainName($ip) : string
     {
-        // Deal with the action and return a response.
-        $services = implode(", ", $this->di->getServices());
-        return __METHOD__ . "<p>\$di contains: $services";
+        if (filter_var($ip, FILTER_VALIDATE_IP)) {
+            return gethostbyaddr($ip);
+        } else {
+            return "ip ej validerad";
+        }
     }
 
 
-
-    /**
-     * return extra details from request 
-     */
-    public function requestDetails(
-        string $method,
-        array $args = []
-    ) : string
-    {
-        $request    = $this->di->get("request");
-        $path       = $request->getRoute();
-        $httpMethod = $request->getMethod();
-        $numArgs    = count($args);
-        $strArgs    = implode(", ", $args);
-        $queryString    = http_build_query($request->getGet(), '', ', ');
-
-        return <<<EOD
-            <h1>$method</h1>
-            <p>The request were '$path' ($httpMethod).
-            <p>Got '$numArgs' arguments: '$strArgs'.
-            <p>Querry string contains: '$queryString'.
-            <p>\$db is '{$this->db}'.
-        EOD;
-    }
+    // /**
+    //  * This sample method dumps the content of $di.
+    //  * GET mountpoint/dump-app
+    //  *
+    //  * @return string
+    //  */
+    // public function dumpDiActionGet() : string
+    // {
+    //     // Deal with the action and return a response.
+    //     $services = implode(", ", $this->di->getServices());
+    //     return __METHOD__ . "<p>\$di contains: $services";
+    // }
 
 
 
-    /**
-     * Adding an optional catchAll() method will catch all actions sent to the
-     * router. You can then reply with an actual response or return void to
-     * allow for the router to move on to next handler.
-     * A catchAll() handles the following, if a specific action method is not
-     * created:
-     * ANY METHOD mountpoint/**
-     *
-     * @param array $args as a variadic parameter.
-     *
-     * @return mixed
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function catchAll(...$args)
-    {
-                // print extra info on action
-        $page = $this->di->get("page");
-        $data = [
-            "content" => $this->requestDetails(__METHOD__, $args),
-        ];
-        $page->add("anax/v2/article/default", $data);
+    // /**
+    //  * return extra details from request for debugging
+    //  */
+    // public function requestDetails(
+    //     string $method,
+    //     array $args = []
+    // ) : string
+    // {
+    //     $request    = $this->di->get("request");
+    //     $path       = $request->getRoute();
+    //     $httpMethod = $request->getMethod();
+    //     $numArgs    = count($args);
+    //     $strArgs    = implode(", ", $args);
+    //     $queryString    = http_build_query($request->getGet(), '', ', ');
 
-        return $page->render([
-            "title" => __METHOD__,
-        ]);
-    }
+    //     return <<<EOD
+    //         <h1>$method</h1>
+    //         <p>The request were '$path' ($httpMethod).
+    //         <p>Got '$numArgs' arguments: '$strArgs'.
+    //         <p>Querry string contains: '$queryString'.
+    //         <p>\$db is '{$this->db}'.
+    //     EOD;
+    // }
+
+    // /**
+    //  * Adding an optional catchAll() for debugging and error catching.
+    //  * A catchAll() handles the following, if a specific action method is not
+    //  * created:
+    //  * ANY METHOD mountpoint/**
+    //  *
+    //  * @param array $args as a variadic parameter.
+    //  *
+    //  * @return mixed
+    //  *
+    //  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+    //  */
+    // public function catchAll(...$args)
+    // {
+    //             // print extra info on action
+    //     $page = $this->di->get("page");
+    //     $data = [
+    //         "content" => $this->requestDetails(__METHOD__, $args),
+    //     ];
+    //     $page->add("anax/v2/article/default", $data);
+
+    //     return $page->render([
+    //         "title" => __METHOD__,
+    //     ]);
+    // }
+
+
+    // /**
+    //  * A catchAll() handles the following, if a specific action method is not
+    //  * created:
+    //  * ANY METHOD mountpoint/**
+    //  *
+    //  * @param array $args as a variadic parameter.
+    //  *
+    //  * @return mixed
+    //  *
+    //  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+    //  */
+    // public function catchAll(...$args)
+    // {
+    //     // Deal with the request and send an actual response, or not.
+    //     //return __METHOD__ . ", \$db is {$this->db}, got '" . count($args) . "' arguments: " . implode(", ", $args);
+    //     return;
+    // }
 }
