@@ -3,17 +3,11 @@
 namespace Anax\View;
 
 /**
- * Render content within an article.
+ * Render page for ip validation.
  */
 
 // Show incoming variables and view helper functions
 //echo showEnvironment(get_defined_vars(), get_defined_functions());
-
-// Prepare classes
-// $classes[] = "article";
-// if (isset($class)) {
-//     $classes[] = $class;
-// }
 
 
 ?>
@@ -25,9 +19,6 @@ namespace Anax\View;
     IP: <input type="text" name="ip">
     <input type="submit" name="doValidate" value="Validera">
 </form>
-
-
-<!-- <p> <?= $ipToValidate ?> </p> -->
 
 
 
