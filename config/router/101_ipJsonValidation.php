@@ -7,7 +7,7 @@ return [
         [
             "info" => "Validate ip with Json Controller.",
             "mount" => "ip/validateJson",
-            "handler" => "\Anax\Controller\ipJsonController",
+            "handler" => "\Anax\Controller\IpJsonController",
         ],
     ]
 ];
