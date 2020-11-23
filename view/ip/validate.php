@@ -17,40 +17,33 @@ namespace Anax\View;
 
 
 ?>
-<h1>validera ip adresser</h1>
+<h1>Validera IP-adresser</h1>
+<br>
+<p> <?= $content ?> </p>
 
 <form method="post">
-    ip: <input type="text" name="ip">
-    <input type="submit" name="validate" value="Validera">
+    IP: <input type="text" name="ip">
+    <input type="submit" name="doValidate" value="Validera">
 </form>
 
 
+<!-- <p> <?= $ipToValidate ?> </p> -->
 
 
 
 <?php if ($ipToValidate) : ?>
-    <h3>valideringsresultat: </h3>
+    <h3>Valideringsresultat: </h3>
 
-    <p><b>Ipv4: </b>
-    <?php if ($ipv4 == true) : ?>
-        Validerar
-    <?php else : ?>
-        Validerar ej
-    <?php endif; ?>
-    </p>
+    <p><b>Ip-adress: </b> <?= $ipToValidate ?> </p>
 
-    <p><b>Ipv6: </b>
-    <?php if ($ipv6 == true) : ?>
-        Validerar
-    <?php else : ?>
-        Validerar ej
-    <?php endif; ?>
-    </p>
+    <p><b>IPv4: </b>  <?= $ipv4 ?> </p>
+    <p><b>IPv6: </b>  <?= $ipv6 ?> </p>
+
 
     <?php if ($domainName) : ?>
-        <p>Domännamn: <?= $domainName ?> </p>
+        <p><b>Domännamn: </b> <?= $domainName ?> </p>
     <?php else : ?>
-        <p>Domännamn: inget domännamn funnet </p>
+        <p><b>Domännamn: </b> inget domännamn funnet </p>
     <?php endif; ?>
 <?php endif; ?>
 

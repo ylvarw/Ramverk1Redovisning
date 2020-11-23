@@ -12,51 +12,35 @@ use Anax\Commons\ContainerInjectableTrait;
 // use Anax\Route\Exception\InternalErrorException;
 
 /**
- * A sample controller to show how a controller class can be implemented.
- * The controller will be injected with $di if implementing the interface
- * ContainerInjectableInterface, like this sample class does.
- * The controller is mounted on a particular route and can then handle all
- * requests for that mount point.
+ * A controller to check if a IP is a valid IPv5 or IPv6 and if it have a domain name.
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class ValidateIpController implements ContainerInjectableInterface
 {
     use ContainerInjectableTrait;
-    // private $valid = new Ylvan\Ip\ValidatorIp();
 
-    // public function indexAction() : object
-    // {
-    //     $title = "Ip validation";
-    //     $session = $this->di->get("session");
-    //     $page = $this->di->get("page");
-        
-    //     $data = [
-    //         "test" => "test2",
-    //         "content" => "Validera en ip-adress",
-    //         // "ipv6" => $ipv6,
-    //         // "domain" => $domain
-    //     ];
-
-    //     $page->add("anax/v2/article/default", $data);
-
-    //     return $page->render([
-    //         "title" => $title,
-    //     ]);
-    // }
     public function indexAction() : object
     {
         $page = $this->di->get("page");
-        $session = $this->di->get("session");
+        $request = $this->di->get("request");
 
-        $session->set("ipToValidate", null);
-        $session->set("ipv4", null);
-        $session->set("ipv6", null);
-        $session->set("domainName", null);
+        $ipToValidate = $request->getPOST("ip", null);
+        $doValidate = $request->getPOST("doValidate", null);
+
+        if ($doValidate) {
+            $ipv4 = $this->ipv4($ipToValidate);
+            $ipv6 = $this->ipv6($ipToValidate);
+
+            // check if it's a valid ip of any type
+            if (filter_var($ipToValidate, FILTER_VALIDATE_IP)) {
+                // code for domain name check
+                $domain = gethostbyaddr($ipToValidate);
+            }
+        }
 
         $page->add("ip/validate", [
             "content" => "Validera en ip-adress",
-            "testvar" => "testar",
             "ipToValidate" => $ipToValidate ?? null,
             "ipv4" => $ipv4 ?? null,
             "ipv6" => $ipv6 ?? null,
@@ -64,100 +48,54 @@ class ValidateIpController implements ContainerInjectableInterface
             "domainName" => $domain ?? null
         ]);
 
-        return $page->render();
-    }
-
-    /**
-     * handle validation from post request
-     */
-    public function validateAction() : object
-    {
-        $title = "validera ip adresser";
-
-        $session = $this->di->get("session");
-        $page = $this->di->get("page");
-        $request = $this->di->get("request");
-
-
-            //  använsa sessin för variablerna
-        $ipToValidate = $request->getPOST("ip", null);
-        $session->set("ipToValidate", null);
-
-        $ipv4 = $this->ipv4($ipToValidate);
-        $ipv6 = $this->ipv6($ipToValidate);
-        // $domain = $this->hasDomainName($ipToValidate);
-        $session->set("ipv4", $ipv4);
-        $session->set("ipv6", $ipv6);
-
-         // check if it's a valid ip
-        if ($ipv4 == true || $ipv6 == true) {
-            // code for domain name check
-            // return gethostbyaddr($ipToValidate);
-            $session->set("domainName", gethostbyaddr($ipToValidate));
-        }
-        // $session->set("domainName", $domain);
-
-
-        $data = [
-            "ipToValidate" => $ipToValidate ?? null,
-            "ipv4" => $ipv4 ?? null,
-            "ipv6" => $ipv6 ?? null,
-            // "hasDomain" => $hasDomain ?? null,
-            "domainName" => $domain ?? null
-        ];
-
-        $page->add("ip/validate", $data);
-
+        $title = "Validera IP";
         return $page->render([
             "title" => $title,
         ]);
     }
 
+
     /**
      * check if ipv4 is valid
      */
-    public function ipv4($ip)
+    private function ipv4($ip)
     {
         // code for ip check
-        if (filter_var($ip, FILTER_FLAG_IPV4)) {
-            return true;
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            return "Validerar";
         } else {
-            return false;
-        }
-
-        // return "checking if $ip is valid ipv4";
-        
+            return "Validerar ej";
+        }        
     }
 
     /**
      * check if ipv6 is valid
      */
-    public function ipv6($ip)
+    private function ipv6($ip)
     {
         // code for ip check
-        if (filter_var($ip, FILTER_FLAG_IPV6)) {
-            return true;
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+            return "Validerar";
         } else {
-            return false;
+            return "Validerar ej";
         }
-        
-        // return "checking if $ip is valid ipv6";
     }
 
-    /**
-     * check if ip have a domain name
-     */
-    // public function hasDomainName($ip)
-    // {
-    //     $ipv4 = $this->ipv4($ip);
-    //     $ipv6 = $this->ipv6($ip);
 
-    //     // check if it's a valid ip
-    //     if ($ipv4 == true || $ipv6 == true) {
-    //         // code for domain name check
-    //         return gethostbyaddr($ip);
-    //     }
-    // }
+
+    /**
+     * This sample method dumps the content of $di.
+     * GET mountpoint/dump-app
+     *
+     * @return string
+     */
+    public function dumpDiActionGet() : string
+    {
+        // Deal with the action and return a response.
+        $services = implode(", ", $this->di->getServices());
+        return __METHOD__ . "<p>\$di contains: $services";
+    }
+
 
 
     /**
