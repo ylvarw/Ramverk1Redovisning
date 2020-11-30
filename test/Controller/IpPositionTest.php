@@ -1,15 +1,15 @@
 <?php
 
-namespace Ylvan\GeoTag;
+namespace Ylvan\Controller;
 
 use Anax\DI\DIFactoryConfig;
 use PHPUnit\Framework\TestCase;
-use Ylvan\Ip\IpHandler;
+// use Ylvan\Ip\IpHandler;
 
 /**
  * Test the helprt class IpHandler.
  */
-class GeoTagTest extends TestCase
+class IpPositionTest extends TestCase
 {
 
 
@@ -22,7 +22,7 @@ class GeoTagTest extends TestCase
         $ipClass = new IpHandler();
         $ip = $ipClass->getUserIp();
         
-        $geo = new GeoTag();
+        $geo = new IpPosition();
         $res = $geo->getPosition($ip);
         $this->assertNotNull($res);
     }

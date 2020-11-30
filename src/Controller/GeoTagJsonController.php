@@ -2,12 +2,11 @@
 
 namespace Ylvan\Controller;
 
-// namespace Ylvan\Ip;
-
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
-require 'helpers/Geotag.php';
-require 'helpers/IpHandler.php';
+
+// include 'helpers/GeoTag.php';
+// include 'helpers/IpHandler.php';
 
 /**
  * A sample JSON controller to show how a controller class can be implemented.
@@ -19,6 +18,8 @@ require 'helpers/IpHandler.php';
 class GeoTagJsonController implements ContainerInjectableInterface
 {
     use ContainerInjectableTrait;
+    // use GeoTag;
+    // use IpHandler;
 
 
     public function indexActionGet() : object
@@ -78,7 +79,7 @@ class GeoTagJsonController implements ContainerInjectableInterface
     public function indexActionPost() : array
     {
         $ip = new IpHandler();
-        $geo = new IpPosition();
+        $geo = new GeoTag();
         // $page = $this->di->get("page");
         $request = $this->di->get("request");
         $session = $this->di->session;
@@ -118,6 +119,4 @@ class GeoTagJsonController implements ContainerInjectableInterface
         ];
         return [$json];
     }
-
-
 }
