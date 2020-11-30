@@ -5,8 +5,8 @@ namespace Ylvan\Controller;
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
 
-require 'helpers/Geotag.php';
-require 'helpers/IpHandler.php';
+// include 'helpers/GeoTag.php';
+// include 'helpers/IpHandler.php';
 
 
 /**
@@ -53,9 +53,6 @@ class GeotagController implements ContainerInjectableInterface
 
         $page->add("ip/location", [
             "content" => "Hitta position med ip-address",
-            // "userPosition" => $userPosition,
-            // "ipPosition" => $ipPosition ?? null,
-            // "ipPosition" => $ipPosition ?? $userPosition,
             "ipPosition" => $coordinates ?? null,
             "latitude" => $latitude ?? null,
             "longitude" => $longitude ?? null,
