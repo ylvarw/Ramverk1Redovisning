@@ -22,6 +22,42 @@ class IpJsonController implements ContainerInjectableInterface
 {
     use ContainerInjectableTrait;
 
+
+    public function indexActionGet() : object
+    {
+        $page = $this->di->get("page");
+        $session = $this->di->session;
+
+        $ipv4 = $session->get("ipv4", null);
+        $ipv6 = $session->get("ipv6", null);
+        $domain = $session->get("domain", null);
+        $ipToValidate = $session->get("ipToValidate", null);
+
+
+        $json = [
+            "ipToValidate" => $ipToValidate,
+            "ipv4" => $ipv4,
+            "ipv6" => $ipv6,
+            "domainName" => $domain
+        ];
+
+        $data = [
+            "title" => "Validera med JSON",
+            "json" => $json,
+        ];
+
+        $page->add("ip/validateJson", $data);
+        // $page->add("anax/v2/article/default", $data);
+
+
+        // $title = "Validera IP med JSON";
+        $title = "Validera IP med JSON";
+        return $page->render([
+            "title" => $title,
+        ]);
+    } 
+
+
     /**
      * This is the index method action, it handles:
      * GET METHOD mountpoint
@@ -30,12 +66,12 @@ class IpJsonController implements ContainerInjectableInterface
      *
      * @return array
      */
-    public function indexAction() : object
-    // public function indexActionGet() : array
+    public function indexActionPost() : array
     {
-        $page = $this->di->get("page");
+        // $page = $this->di->get("page");
         $request = $this->di->get("request");
-        // $session = $this->di->get("session");
+        $session = $this->di->session;
+
 
         $ipToValidate = $request->getPOST("ip", null);
         $doValidate = $request->getPOST("doValidate", null);
@@ -43,34 +79,82 @@ class IpJsonController implements ContainerInjectableInterface
         if ($doValidate) {
             $ipv4 = $this->ipv4($ipToValidate);
             $ipv6 = $this->ipv6($ipToValidate);
-
-
-            // check if it's a valid ip of any type
-            // if (filter_var($ipToValidate, FILTER_VALIDATE_IP)) {
-                // code for domain name check
             $domain = $this->domainName($ipToValidate);
             // }
+            $session->set("ipv4", $ipv4);
+            $session->set("ipv6", $ipv6);
+            $session->set("domain", $domain);
+            $session->set("ipToValidate", $ipToValidate);
+            // $session->set("ipv4", null) = $ipv4;
+            // $session->set("ipv6", null) = $ipv6;
+            // $session->set("domain", null) = $domain;
+            // $session->set("ipToValidate", null) = $ipToValidate;
         }
-    
+
         // Deal with the action and return a response.
+        // $json = [
+        //     "message" => __METHOD__ . ", \$db is {$this->db}",
+        // ];
         $json = [
             "ipToValidate" => $ipToValidate ?? null,
             "ipv4" => $ipv4 ?? null,
             "ipv6" => $ipv6 ?? null,
             "domainName" => $domain ?? null
         ];
-
-        $page->add("ip/validateJson", [
-            "title" => "Validera med JOSN",
-            "json" => [$json],
-
-        ]);
-
-        $title = "Validera IP med JSON";
-        return $page->render([
-            "title" => $title,
-        ]);
+        return [$json];
     }
+
+    
+
+    /**
+     * This is the index method action, it handles:
+     * GET METHOD mountpoint
+     * GET METHOD mountpoint/
+     * GET METHOD mountpoint/index
+     *
+     * @return array
+     */
+    // public function indexAction() : object
+    // // public function indexActionGet() : array
+    // {
+    //     $page = $this->di->get("page");
+    //     $request = $this->di->get("request");
+    //     // $session = $this->di->get("session");
+
+    //     $ipToValidate = $request->getPOST("ip", null);
+    //     $doValidate = $request->getPOST("doValidate", null);
+
+    //     if ($doValidate) {
+    //         $ipv4 = $this->ipv4($ipToValidate);
+    //         $ipv6 = $this->ipv6($ipToValidate);
+
+
+    //         // check if it's a valid ip of any type
+    //         // if (filter_var($ipToValidate, FILTER_VALIDATE_IP)) {
+    //             // code for domain name check
+    //         $domain = $this->domainName($ipToValidate);
+    //         // }
+    //     }
+    
+    //     // Deal with the action and return a response.
+    //     $json = [
+    //         "ipToValidate" => $ipToValidate ?? null,
+    //         "ipv4" => $ipv4 ?? null,
+    //         "ipv6" => $ipv6 ?? null,
+    //         "domainName" => $domain ?? null
+    //     ];
+
+    //     $page->add("ip/validateJson", [
+    //         "title" => "Validera med JOSN",
+    //         "json" => [$json],
+
+    //     ]);
+
+    //     $title = "Validera IP med JSON";
+    //     return $page->render([
+    //         "title" => $title,
+    //     ]);
+    // }
 
     /**
      * check if ipv4 is valid
