@@ -49,7 +49,7 @@ return [
             "title" => "Verktyg och möjligheter för utveckling.",
         ],
         [
-            "text" => "Validera ip",
+            "text" => "Hantera ip",
             "url" => "validateIp",
             "title" => "validera en ip adress.",
         ],

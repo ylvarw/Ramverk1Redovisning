@@ -32,16 +32,12 @@ class ValidateIpController implements ContainerInjectableInterface
             $ipv4 = $this->ipv4($ipToValidate);
             $ipv6 = $this->ipv6($ipToValidate);
 
-            // check if it's a valid ip of any type
-            // if (filter_var($ipToValidate, FILTER_VALIDATE_IP)) {
-                // code for domain name check
             $domain = $this->domainName($ipToValidate);
-            // }
         }
 
         $page->add("ip/validate", [
             "content" => "Validera en ip-adress",
-            "ipToValidate" => $ipToValidate ?? null,
+            "ipAddress" => $ipToValidate ?? null,
             "ipv4" => $ipv4 ?? null,
             "ipv6" => $ipv6 ?? null,
             // "hasDomain" => null,
@@ -94,22 +90,6 @@ class ValidateIpController implements ContainerInjectableInterface
             return "ip ej validerad";
         }
     }
-
-
-    // /**
-    //  * This sample method dumps the content of $di.
-    //  * GET mountpoint/dump-app
-    //  *
-    //  * @return string
-    //  */
-    // public function dumpDiActionGet() : string
-    // {
-    //     // Deal with the action and return a response.
-    //     $services = implode(", ", $this->di->getServices());
-    //     return __METHOD__ . "<p>\$di contains: $services";
-    // }
-
-
 
     // /**
     //  * return extra details from request for debugging

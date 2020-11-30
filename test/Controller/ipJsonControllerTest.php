@@ -40,18 +40,60 @@ class IpJsonControllerTest extends TestCase
     }
 
 
-    /**
-     * Test the route "index".
-     */
-    public function testIndexActionType()
-    {
-        $res = $this->controller->indexAction();
-        // $this->assertInstanceOf("\Anax\Response\Response", $res);
+    //  /**
+    //  * Test the route "index".
+    //  */
+    // public function testIndexActionGet()
+    // {
+    //     $res = $this->controller->indexActionGet();
+    //     $this->assertInternalType("array", $res);
 
-        // $body = $res->getBody();
-        // $exp = "Validera IP</title>";
-        $this->assertIsObject($res);
-    }
+    //     $json = $res[0];
+    //     $exp = "db is active";
+    //     $this->assertContains($exp, $json["message"]);
+    // }
+
+    // /**
+    //  * Test the route "index".
+    //  */
+    // public function testIndexActionPostType()
+    // {
+    //     $res = $this->controller->indexActionPost();
+    //     // $this->assertInstanceOf("\Anax\Response\Response", $res);
+
+    //     // $body = $res->getBody();
+    //     // $exp = "Validera IP</title>";
+    //     $this->assertIsArray($res);
+    // }
+
+
+    // /**
+    //  * Test the route "index".
+    //  */
+    // public function testIndexActionGetType()
+    // {
+    //     $controller = new IpJsonController();
+    //     $res = $controller->indexActionGet();
+    //     // $this->assertInstanceOf("\Anax\Response\Response", $res);
+
+    //     // $body = $res->getBody();
+    //     // $exp = "Validera IP</title>";
+    //     $this->assertIsObject($res);
+    // }
+
+
+    // /**
+    //  * Test the route "index".
+    //  */
+    // public function testIndexActionType()
+    // {
+    //     $res = $this->controller->indexAction();
+    //     // $this->assertInstanceOf("\Anax\Response\Response", $res);
+
+    //     // $body = $res->getBody();
+    //     // $exp = "Validera IP</title>";
+    //     $this->assertIsObject($res);
+    // }
 
     /**
      * Test the ipv4 validation method.
