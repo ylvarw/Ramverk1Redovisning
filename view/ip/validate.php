@@ -22,10 +22,10 @@ namespace Anax\View;
 
 
 
-<?php if ($ipToValidate) : ?>
+<?php if ($ipAddress) : ?>
     <h3>Valideringsresultat: </h3>
 
-    <p><b>Ip-adress: </b> <?= $ipToValidate ?> </p>
+    <p><b>Ip-adress: </b> <?= $ipAddress ?> </p>
 
     <p><b>IPv4: </b>  <?= $ipv4 ?> </p>
     <p><b>IPv6: </b>  <?= $ipv6 ?> </p>
