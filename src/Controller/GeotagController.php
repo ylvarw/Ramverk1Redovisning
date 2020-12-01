@@ -5,18 +5,13 @@ namespace Ylvan\Controller;
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
 
-// include 'helpers/GeoTag.php';
-// include 'helpers/IpHandler.php';
-
 
 /**
- * A test controller to show off redirect.
+ * A controller show position of IP
  */
 class GeotagController implements ContainerInjectableInterface
 {
     use ContainerInjectableTrait;
-    // use GeoTag;
-    // use IpHandler;
 
     public function indexAction() : object
     {
