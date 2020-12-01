@@ -5,21 +5,14 @@ namespace Ylvan\Controller;
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
 
-// include 'helpers/GeoTag.php';
-// include 'helpers/IpHandler.php';
 
 /**
- * A sample JSON controller to show how a controller class can be implemented.
- * The controller will be injected with $di if implementing the interface
- * ContainerInjectableInterface, like this sample class does.
- * The controller is mounted on a particular route and can then handle all
- * requests for that mount point.
+ * A controller show position of IP with JSON format
  */
 class GeoTagJsonController implements ContainerInjectableInterface
 {
     use ContainerInjectableTrait;
-    // use GeoTag;
-    // use IpHandler;
+
 
 
     public function indexActionGet() : object
