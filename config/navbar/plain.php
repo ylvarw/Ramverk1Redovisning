@@ -38,5 +38,10 @@ return [
             "url" => "validateIp",
             "title" => "validera en ip adress.",
         ],
+        [
+            "text" => "Väder",
+            "url" => "weather",
+            "title" => "kolla väder med plats eller ip.",
+        ],
     ],
 ];

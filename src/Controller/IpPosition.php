@@ -2,9 +2,6 @@
 
 namespace Ylvan\Controller;
 
-// include './vars.php';
-// require 'vars.php';
-
 
 /**
  * A class to handle requests for geolocation
