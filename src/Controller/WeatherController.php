@@ -59,10 +59,10 @@ class WeatherController implements ContainerInjectableInterface
                     $selectedtemp = $weatherdata['main'];
                     $selectedtwind = $weatherdata['wind'];
                 } catch (\Throwable $th){
-                    $NoData = "No weather data, could not connect to api";
+                    $noData = "No weather data, could not connect to api";
                 }
             } else {
-                $NoData = "Could not find weather data, not a valid IP";
+                $noData = "Could not find weather data, not a valid IP";
             }
             // try {
             //     $weatherdata = $weather->getWeather($city, $latitude, $longitude);
@@ -91,7 +91,7 @@ class WeatherController implements ContainerInjectableInterface
             "selectedtemp" => $selectedtemp ?? null,
             "selectedtwind" => $selectedtwind ?? null,
             "weatherdata" => $weatherdata ?? null,
-            "NoData" => $NoData ?? null,
+            "noData" => $noData ?? null,
             "weatherHistorydata" => $weatherdata ?? null
         ]);
 
