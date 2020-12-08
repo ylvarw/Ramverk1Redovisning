@@ -11,7 +11,7 @@ namespace Anax\View;
 
 
 ?>
-<h1>kolla väder med ip eller plats</h1>
+<h1>kolla väder med ip</h1>
 <br>
 <p> <?= $content ?> </p>
 
@@ -30,6 +30,10 @@ namespace Anax\View;
 <!-- <p><b>testvar: </b> <?= $testvar ?> </p> -->
 
 
+<?php if ($NoData) : ?>
+    <p> <?= $NoData ?> </p>
+
+<?php endif; ?>
 <?php if ($weatherdata) : ?>
     <p>Plats:  <?= $city ?>, <?= $coordinates ?> </p>
     <p>Väder: <?= json_encode($selectedWeather) ?> </p>

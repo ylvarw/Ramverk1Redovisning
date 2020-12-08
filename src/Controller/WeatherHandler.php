@@ -56,11 +56,23 @@ class WeatherHandler
     {
         $access_key = '31e4a45c184fb9ee516a7e276edafb79';
         $url = 'http://api.openweathermap.org/data/2.5/weather';
-        $response = file_get_contents($url . $searchParam . '&appid=' . $access_key);
+        
+        try {
+            $response = file_get_contents($url . $searchParam . '&appid=' . $access_key);
 
-        $api_result = json_decode($response, true);
+            $api_result = json_decode($response, true);
 
-        return $api_result;
+            return $api_result;
+        } catch (\Throwable $th) {
+            return "could not fetch data";
+        }
+        // $access_key = '31e4a45c184fb9ee516a7e276edafb79';
+        // $url = 'http://api.openweathermap.org/data/2.5/weather';
+        // $response = file_get_contents($url . $searchParam . '&appid=' . $access_key);
+
+        // $api_result = json_decode($response, true);
+
+        // return $api_result;
     }
 
 
