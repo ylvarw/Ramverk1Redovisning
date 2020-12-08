@@ -51,15 +51,35 @@ class WeatherController implements ContainerInjectableInterface
             $city = $ipPosition['city'];
             $coordinates = 'Latitude: '.$latitude . ' ' . 'Longitude: ' . $longitude;
             
-            $weatherdata = $weather->getWeather($city, $latitude, $longitude);
-            $selectedWeather = $weatherdata['weather'];
-            $selectedtemp = $weatherdata['main'];
-            $selectedtwind = $weatherdata['wind'];
+            // $weatherdata = $weather->getWeather($city, $latitude, $longitude);
+            if ($ip->ipIsValid($ip)) {
+                try {
+                    $weatherdata = $weather->getWeather($city, $latitude, $longitude);
+                    $selectedWeather = $weatherdata['weather'];
+                    $selectedtemp = $weatherdata['main'];
+                    $selectedtwind = $weatherdata['wind'];
+                } catch (\Throwable $th){
+                    $NoData = "No weather data, could not connect to api";
+                }
+            } else {
+                $NoData = "Could not find weather data, not a valid IP";
+            }
+            // try {
+            //     $weatherdata = $weather->getWeather($city, $latitude, $longitude);
+            //     $selectedWeather = $weatherdata['weather'];
+            //     $selectedtemp = $weatherdata['main'];
+            //     $selectedtwind = $weatherdata['wind'];
+            // } catch (\Throwable $th){
+            //     $NoData = "could not find weather data";
+            // }
+            // $selectedWeather = $weatherdata['weather'];
+            // $selectedtemp = $weatherdata['main'];
+            // $selectedtwind = $weatherdata['wind'];
         }
 
         $page->add("weather/weather", [
             // "content" => "kolla väder med ip-address eller ortnamn",
-            "content" => "kolla väder med ip-address",
+            "content" => "Kolla väder med ip-address",
             "ipPosition" => $coordinates ?? null,
             "latitude" => $latitude ?? null,
             "longitude" => $longitude ?? null,
@@ -71,6 +91,7 @@ class WeatherController implements ContainerInjectableInterface
             "selectedtemp" => $selectedtemp ?? null,
             "selectedtwind" => $selectedtwind ?? null,
             "weatherdata" => $weatherdata ?? null,
+            "NoData" => $NoData ?? null,
             "weatherHistorydata" => $weatherdata ?? null
         ]);
 
