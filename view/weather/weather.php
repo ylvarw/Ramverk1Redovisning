@@ -30,10 +30,11 @@ namespace Anax\View;
 <!-- <p><b>testvar: </b> <?= $testvar ?> </p> -->
 
 
-<?php if ($NoData) : ?>
+<?php if ($noData) : ?>
     <p> <?= $NoData ?> </p>
-
 <?php endif; ?>
+
+
 <?php if ($weatherdata) : ?>
     <p>Plats:  <?= $city ?>, <?= $coordinates ?> </p>
     <p>Väder: <?= json_encode($selectedWeather) ?> </p>
