@@ -89,6 +89,23 @@ class IpHandler
         }
     }
 
+    /**
+     * check if ip  is valid for either ipv4 or ipv6
+     * returns true or false
+     */
+    public function ipIsValid($ip) : string
+    {
+        // code for ip check
+        $ipv4 = $this->ipv4($ip);
+        $ipv6 = $this->ipv6($ip);
+        if ($ipv4 == "Validerar" or $ipv6 == "Validerar") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
     
     /**
      * check if ip have a domain name
