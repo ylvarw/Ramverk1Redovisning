@@ -3,11 +3,12 @@ namespace Ylvan\Models;
 
 /**
  * A class to handle IP
+ * request user IP address, validate Ip
  */
 class IpHandler
 {
     /**
-     * get user IP address
+     * return user/device IP address
      */
     public function getUserIp() : string
     {
@@ -16,7 +17,7 @@ class IpHandler
     }
 
     /**
-     * get user IP address
+     * get user/device external IP address
      */
     public function findIp() : string
     {
@@ -27,7 +28,7 @@ class IpHandler
     }
 
     /**
-     * check if ipv4 is valid
+     * check if address is valid ipv4
      */
     public function ipv4($ip) : string
     {
@@ -40,7 +41,7 @@ class IpHandler
     }
 
     /**
-     * check if ipv6 is valid
+     * check if adress is valid ipv6
      */
     public function ipv6($ip) : string
     {
@@ -53,7 +54,7 @@ class IpHandler
     }
 
     /**
-     * check if ip  is valid for either ipv4 or ipv6
+     * check if ip is valid for either ipv4 or ipv6
      * returns true or false
      */
     public function ipIsValid($ip) : string
