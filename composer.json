@@ -8,7 +8,7 @@
         "psr-4": {
             "Anax\\": "src/",
             "Ylvan\\": "src/",
-            "Helper\\": "src/"
+            "Models\\": "src/"
         }
     },
     "require": {
