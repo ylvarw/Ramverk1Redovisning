@@ -11,14 +11,15 @@ namespace Anax\View;
 
 
 ?>
-<h1>kolla väder med ip</h1>
+<h1>Kolla väder med ip</h1>
 <br>
 <p> <?= $content ?> </p>
 
 <form method="post">
     IP:  <input type="text" name="ip" placeholder="<?= $ipAddress ?>">
     <input type="submit" name="SearchIP" value="sök">
-    <input type="submit" name="SearchHistoryIP" value="historisk data">
+    <!-- <input type="submit" name="SearchHistoryIP" value="historisk data"> -->
+    <input type="submit" name="forecast" value="kommande prognos">
 </form>
 <br>
 <!-- <form method="post">
@@ -31,27 +32,57 @@ namespace Anax\View;
 
 
 <?php if ($noData) : ?>
-    <p> <?= $NoData ?> </p>
+    <p> <?= $noData ?> </p>
 <?php endif; ?>
 
 
 <?php if ($weatherdata) : ?>
     <p>Plats:  <?= $city ?>, <?= $coordinates ?> </p>
-    <p>Väder: <?= json_encode($selectedWeather) ?> </p>
-    <!-- <p> <?= json_encode($WeatherDescriprion) ?> </p> -->
-    <p>Temperatur: <?= json_encode($selectedtemp) ?> </p>
-    <p>Vind: <?= json_encode($selectedtwind) ?> </p>
+    <p>
+        Dagens väder:  <?= json_encode($descriptionWeather) ?> 
+        <br>
+        Temperatur: <?= json_encode($selectedtemp["temp"]) ?> C, 
+        Max: <?= json_encode($selectedtemp["temp_max"]) ?> C, 
+        Min: <?= json_encode($selectedtemp["temp_min"]) ?> C
+        <br>
+        Luftfuktighet: <?= json_encode($selectedtemp["humidity"]) ?>%
+        Vindstyrka: <?= json_encode($selectedtwind["speed"]) ?> m/s 
+    </p>
+<?php endif; ?>
+
+
+
+<?php if ($forecastData) : ?>
+    <?php if (json_encode($forecastData["cod"] == '401')) : ?>
+        <p> <?= json_encode($forecastData["message"]) ?>
+        <br>
+        Service is not a part of your subscription </p>
+    <?php else : ?>
+        <p>Plats:  <?= $city ?>, <?= $coordinates ?> </p>
+        <p>
+            Dagens väder:  <?= json_encode($forecastData) ?> 
+            <!-- <br>
+            Temperatur: <?= json_encode($selectedtemp["temp"]) ?> C, 
+            Max: <?= json_encode($selectedtemp["temp_max"]) ?> C, 
+            Min: <?= json_encode($selectedtemp["temp_min"]) ?> C
+            <br>
+            Luftfuktighet: <?= json_encode($selectedtemp["humidity"]) ?>%
+            Vindstyrka: <?= json_encode($selectedtwind["speed"]) ?> m/s  -->
+        </p>
+    <?php endif; ?>
 <?php endif; ?>
 
 
 <?php if ($weatherHistorydata) : ?>
-    <p>Plats:  <?= $city ?>, <?= $coordinates ?> </p>
-    <?php foreach ($weatherHistorydata as $data) : ?>
-        <p>Datum:  </p>
-        <p>Väder: <?= json_encode($data->selectedWeather) ?> </p>
-        <!-- <p> <?= json_encode($data->WeatherDescriprion) ?> </p> -->
-        <p>Temperatur: <?= json_encode($data->selectedtemp) ?> </p>
-        <p>Vind: <?= json_encode($data->selectedtwind) ?> </p>
-    <?php endforeach;?>
+    <?php if (json_encode($weatherHistorydata["cod"] == '401')) : ?>
+        <p> <?= json_encode($weatherHistorydata["message"]) ?>
+        <br>
+        Service is not a part of your subscription </p>
+    <?php else : ?>
+        <p>Plats:  <?= $city ?>, <?= $coordinates ?> </p>
+        <?php foreach ($weatherHistorydata as $data) : ?>
+            <p>Data:  <?= json_encode($data) ?> </p>
+        <?php endforeach;?>
+    <?php endif; ?>
 <?php endif; ?>
 

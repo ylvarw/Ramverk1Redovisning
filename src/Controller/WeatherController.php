@@ -16,31 +16,21 @@ class WeatherController implements ContainerInjectableInterface
 
     public function indexAction() : object
     {
-        $ip = new IpHandler();
+        // $ip = new IpHandler();
         $geo = new IpPosition();
         $weather = new WeatherHandler();
 
+        $ip = $this->di->get("ipHandler");
         $page = $this->di->get("page");
         $request = $this->di->get("request");
 
         $SearchIP = $request->getPOST("SearchIP", null);
+        $SearchHistoryIP = $request->getPOST("SearchHistoryIP", null);
+        $forecast = $request->getPOST("forecast", null);
+
         $useip = $request->getPOST("ip", null);
         $userIp = $ip->getUserIp();
 
-        // $searchCity = $request->getPOST("searchCity", null);
-        // $city = $request->getPOST("city", null);
-        // $userIpPosition = $geo->getPosition($userIp);
-        // $placeholderCity = $userIpPosition['city'];
-
-        // if ($searchCity) {
-        //     $latitude = null;
-        //     $longitude = null;
-
-        //     $weatherData = $weather->getWeather($city, $latitude, $longitude);
-        //     $selectedWeather = $weatherData['weather'];
-        //     $selectedtemp = $weatherData['main'];
-        //     $selectedtwind = $weatherData['wind'];
-        // }
 
         if ($SearchIP) {
             $city = null;
@@ -52,29 +42,71 @@ class WeatherController implements ContainerInjectableInterface
             $coordinates = 'Latitude: '.$latitude . ' ' . 'Longitude: ' . $longitude;
             
             // $weatherdata = $weather->getWeather($city, $latitude, $longitude);
-            if ($ip->ipIsValid($ip)) {
-                try {
-                    $weatherdata = $weather->getWeather($city, $latitude, $longitude);
-                    $selectedWeather = $weatherdata['weather'];
-                    $selectedtemp = $weatherdata['main'];
-                    $selectedtwind = $weatherdata['wind'];
-                } catch (\Throwable $th){
-                    $noData = "No weather data, could not connect to api";
-                }
+            if ($ip->ipIsValid($useip)) {
+                // try {
+                $weatherdata = $weather->getWeather($city, $latitude, $longitude);
+                $selectedWeather = $weatherdata['weather'];
+                $descriptionWeather = $weatherdata['weather'][0]['description'];
+                $selectedtemp = $weatherdata['main'];
+                $selectedtwind = $weatherdata['wind'];
+                // } catch (\Throwable $th){
+                //     $noData = "No weather data, could not connect to api";
+                // }
             } else {
                 $noData = "Could not find weather data, not a valid IP";
             }
-            // try {
-            //     $weatherdata = $weather->getWeather($city, $latitude, $longitude);
-            //     $selectedWeather = $weatherdata['weather'];
-            //     $selectedtemp = $weatherdata['main'];
-            //     $selectedtwind = $weatherdata['wind'];
-            // } catch (\Throwable $th){
-            //     $NoData = "could not find weather data";
-            // }
-            // $selectedWeather = $weatherdata['weather'];
-            // $selectedtemp = $weatherdata['main'];
-            // $selectedtwind = $weatherdata['wind'];
+        }
+
+
+        if ($forecast) {
+            $city = null;
+
+            $ipPosition = $geo->getPosition($useip);
+            $latitude = $ipPosition['latitude'];
+            $longitude = $ipPosition['longitude'];
+            $city = $ipPosition['city'];
+            $coordinates = 'Latitude: '.$latitude . ' ' . 'Longitude: ' . $longitude;
+            
+            // $weatherdata = $weather->getWeather($city, $latitude, $longitude);
+            if ($ip->ipIsValid($useip)) {
+                // try {
+                $forecastData = $weather->getForecastWeather($city, $latitude, $longitude);
+                // $selectedWeather = $weatherdata['weather'];
+                // $descriptionWeather = $weatherdata['weather'][0]['description'];
+                // $selectedtemp = $weatherdata['main'];
+                // $selectedtwind = $weatherdata['wind'];
+                // } catch (\Throwable $th){
+                //     $noData = "No weather data, could not connect to api";
+                // }
+            } else {
+                $noData = "Could not find weather data, not a valid IP";
+            }
+        }
+
+
+        if ($SearchHistoryIP) {
+            $city = null;
+
+            $ipPosition = $geo->getPosition($useip);
+            $latitude = $ipPosition['latitude'];
+            $longitude = $ipPosition['longitude'];
+            $city = $ipPosition['city'];
+            $coordinates = 'Latitude: '.$latitude . ' ' . 'Longitude: ' . $longitude;
+            
+            // $weatherdata = $weather->getWeather($city, $latitude, $longitude);
+            if ($ip->ipIsValid($useip)) {
+                // try {
+                $weatherHistorydata = $weather->getHistoryWeather($city, $latitude, $longitude);
+                // $selectedWeather = $weatherdata['weather'];
+                // $descriptionWeather = $weatherdata['weather'][0]['description'];
+                // $selectedtemp = $weatherdata['main'];
+                // $selectedtwind = $weatherdata['wind'];
+                // } catch (\Throwable $th){
+                //     $noData = "No weather data, could not connect to api";
+                // }
+            } else {
+                $noData = "Could not find weather data, not a valid IP";
+            }
         }
 
         $page->add("weather/weather", [
@@ -87,12 +119,14 @@ class WeatherController implements ContainerInjectableInterface
             "coordinates" => $coordinates ?? null,
             "placeholderCity" => $placeholderCity ?? null,
             "ipAddress" => $useip ?? $userIp,
+            "descriptionWeather" => $descriptionWeather ?? null,
             "selectedWeather" => $selectedWeather ?? null,
             "selectedtemp" => $selectedtemp ?? null,
             "selectedtwind" => $selectedtwind ?? null,
             "weatherdata" => $weatherdata ?? null,
             "noData" => $noData ?? null,
-            "weatherHistorydata" => $weatherdata ?? null
+            "weatherHistorydata" => $weatherHistorydata ?? null,
+            "forecastData" => $forecastData ?? null
         ]);
 
         $title = "Sök väder";
