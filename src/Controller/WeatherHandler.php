@@ -113,11 +113,11 @@ class WeatherHandler
     private function getHistoricalResponse($lat, $long) : array
     {
         $access_key = '31e4a45c184fb9ee516a7e276edafb79';
-        $maptype = 'TA2';
-        $zoom = '1';
+        // $maptype = 'TA2';
+        // $zoom = '1';
         // $url = 'http://api.openweathermap.org/data/2.5/aggregated/month';
         // $url = 'http://maps.openweathermap.org/maps/2.0/weather/{op}/{z}/{x}/{y}&appid={API key}';
-        $url = 'http://api.openweathermap.org/data/2.5/onecall/timemachine';
+        // $url = 'http://api.openweathermap.org/data/2.5/onecall/timemachine';
         $url = 'http://maps.openweathermap.org/maps/2.0/weather/';
         // $url = 'http://history.openweathermap.org/data/2.5/history/city';
         // '?lat={lat}&lon={lon}&type=hour&start={start}&end={end}&appid={API key}';
