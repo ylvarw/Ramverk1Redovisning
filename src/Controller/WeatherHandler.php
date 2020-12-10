@@ -13,11 +13,12 @@ class WeatherHandler
     /**
      * get pressent weather data
      */
-    public function getWeather($city, $lat, $long) : array
+    public function getWeather($lat, $long) : array
     {
         // return $this->checkhistoryParams($city, $lat, $long);
-        $querrieformat = $this->checkParams($city, $lat, $long);
-        return $this->getResponse($querrieformat);
+        // $querrieformat = $this->checkParams($city, $lat, $long);
+        $searchParam = '?lat=' . $lat . '&lon=' . $long;
+        return $this->getResponse($searchParam);
     }
     
     /**
@@ -38,20 +39,20 @@ class WeatherHandler
     }
 
 
-    /**
-     * get args, return correct format of api querrie
-     */
-    private function checkParams($city, $lat, $long) : string
-    {
-        if ($city != null) {
-            $searchParam = '?q=' . $city;
-            return $searchParam;
-        }
-        else {
-            $searchParam = '?lat=' . $lat . '&lon=' . $long;
-            return $searchParam;
-        }
-    }
+    // /**
+    //  * get args, return correct format of api querrie
+    //  */
+    // private function checkParams($city, $lat, $long) : string
+    // {
+    //     if ($city != null) {
+    //         $searchParam = '?q=' . $city;
+    //         return $searchParam;
+    //     }
+    //     else {
+    //         $searchParam = '?lat=' . $lat . '&lon=' . $long;
+    //         return $searchParam;
+    //     }
+    // }
 
 
 
