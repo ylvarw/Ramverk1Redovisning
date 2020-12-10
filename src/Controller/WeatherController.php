@@ -33,7 +33,7 @@ class WeatherController implements ContainerInjectableInterface
 
 
         if ($SearchIP) {
-            $city = null;
+            // $city = null;
 
             $ipPosition = $geo->getPosition($useip);
             $latitude = $ipPosition['latitude'];
@@ -44,7 +44,7 @@ class WeatherController implements ContainerInjectableInterface
             // $weatherdata = $weather->getWeather($city, $latitude, $longitude);
             if ($ip->ipIsValid($useip)) {
                 // try {
-                $weatherdata = $weather->getWeather($city, $latitude, $longitude);
+                $weatherdata = $weather->getWeather($latitude, $longitude);
                 $selectedWeather = $weatherdata['weather'];
                 $descriptionWeather = $weatherdata['weather'][0]['description'];
                 $selectedtemp = $weatherdata['main'];
@@ -59,7 +59,7 @@ class WeatherController implements ContainerInjectableInterface
 
 
         if ($forecast) {
-            $city = null;
+            // $city = null;
 
             $ipPosition = $geo->getPosition($useip);
             $latitude = $ipPosition['latitude'];
@@ -70,7 +70,7 @@ class WeatherController implements ContainerInjectableInterface
             // $weatherdata = $weather->getWeather($city, $latitude, $longitude);
             if ($ip->ipIsValid($useip)) {
                 // try {
-                $forecastData = $weather->getForecastWeather($city, $latitude, $longitude);
+                $forecastData = $weather->getForecastWeather($latitude, $longitude);
                 // $selectedWeather = $weatherdata['weather'];
                 // $descriptionWeather = $weatherdata['weather'][0]['description'];
                 // $selectedtemp = $weatherdata['main'];
@@ -85,7 +85,7 @@ class WeatherController implements ContainerInjectableInterface
 
 
         if ($SearchHistoryIP) {
-            $city = null;
+            // $city = null;
 
             $ipPosition = $geo->getPosition($useip);
             $latitude = $ipPosition['latitude'];
@@ -96,7 +96,7 @@ class WeatherController implements ContainerInjectableInterface
             // $weatherdata = $weather->getWeather($city, $latitude, $longitude);
             if ($ip->ipIsValid($useip)) {
                 // try {
-                $weatherHistorydata = $weather->getHistoryWeather($city, $latitude, $longitude);
+                $weatherHistorydata = $weather->getHistoryWeather($latitude, $longitude);
                 // $selectedWeather = $weatherdata['weather'];
                 // $descriptionWeather = $weatherdata['weather'][0]['description'];
                 // $selectedtemp = $weatherdata['main'];
