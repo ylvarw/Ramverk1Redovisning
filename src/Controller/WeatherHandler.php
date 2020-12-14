@@ -144,6 +144,10 @@ class WeatherHandler
     //         return ["could connect to openweathermap"];
     //     }
     // }
+
+    /**
+     * get weather data of the last 5 days with multi-curl
+     */
     private function getHistoricalResponse($lat, $long) : array
     {
         $key = $this->access_key;
@@ -152,12 +156,12 @@ class WeatherHandler
             CURLOPT_RETURNTRANSFER => true,
         ];
         $currentTime = time();
-        $day1 =($currentTime - ((24*60*60)*1));
-        $day2 =($currentTime - ((24*60*60)*2));
-        $day3 =($currentTime - ((24*60*60)*3));
-        $day4 =($currentTime - ((24*60*60)*4));
-        $day5 =($currentTime - ((24*60*60)*5));
-        $timeList = [$day1, $day2, $day3, $day4, $day5];
+        $day1 = ($currentTime - ((24*60*60)*1));
+        $day2 = ($currentTime - ((24*60*60)*2));
+        $day3 = ($currentTime - ((24*60*60)*3));
+        $day4 = ($currentTime - ((24*60*60)*4));
+        $day5 = ($currentTime - ((24*60*60)*5));
+        $timeList = [$currentTime, $day1, $day2, $day3, $day4, $day5];
 
 
         // Add all curl handlers and remember them
