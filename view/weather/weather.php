@@ -22,7 +22,6 @@ namespace Anax\View;
 
 <h1>Kolla väder med ip</h1>
 <br>
-<!-- <h3> <?= $content ?> </h3> -->
 
 <form method="post">
     IP:  <input type="text" name="ip" placeholder="<?= $ipAddress ?>">
@@ -38,6 +37,7 @@ namespace Anax\View;
 </form> -->
 
 <!-- <p><b>testvar: </b> <?= $testvar ?> </p> -->
+<h3> <?= $content ?> </h3>
 
 
 <?php if ($noData) : ?>
@@ -88,31 +88,26 @@ namespace Anax\View;
 
 
 <?php if ($weatherHistorydata) : ?>
-        <p>Plats:  <?= $city ?>, <?= $coordinates ?> </p>
-        <!-- <p><?= json_encode($weatherHistorydata[1]) ?> </p> -->
-        <!-- <br><br> -->
+        <p><b>Plats: </b> <?= $city ?>, <?= $coordinates ?> </p>
+        <!-- <p><?= json_encode($weatherHistorydata) ?> </p> -->
         <?php foreach ($weatherHistorydata as $index => $data) : ?>
-            <?php
-                if ($index == 0) {
-                    continue;
-                }
-            ?>
             <p>
-                Data:  <?= json_encode($data) ?> 
+                <!-- Data:  <?= json_encode($data) ?>  -->
                 <br>
-                <b>Datum:</b> <?= date("Y-m-d", json_encode($data["dt"])); ?>
+                <b>Datum:</b> <?= date("Y-m-d", json_encode($data["current"]["dt"])); ?>
                 <!-- <b>Datum:</b> <?= json_encode($data["dt"]); ?> -->
                 <br>
-                Dagens väder:  <?= json_encode($data["weather"][0]["description"]) ?> 
+                Dagens väder:  <?= json_encode($data["current"]["weather"][0]["description"]) ?> 
                 <br>
-                Temperatur: <?= json_encode($data["temp"]["day"]) ?> C
+                Temperatur: <?= json_encode($data["current"]["temp"]) ?> C
+                <!-- <br>
+                Max: <?= json_encode($data["current"]["temp"]) ?> C
                 <br>
-                Max: <?= json_encode($data["temp"]["max"]) ?> C
+                Min: <?= json_encode($data["current"]["temp"]) ?> C -->
                 <br>
-                Min: <?= json_encode($data["temp"]["min"]) ?> C
+                Luftfuktighet: <?= json_encode($data["current"]["humidity"]) ?>%
                 <br>
-                Luftfuktighet: <?= json_encode($data["humidity"]) ?>%
-                Vindstyrka: <?= json_encode($data["wind_speed"]) ?> m/s
+                Vindstyrka: <?= json_encode($data["current"]["wind_speed"]) ?> m/s
         </p>
         <?php endforeach;?>
 <?php endif; ?>
