@@ -1,8 +1,7 @@
 <?php
 
 namespace Ylvan\Controller;
-// namespace Ylvan\Model;
-// namespace Anax\Controller;
+
 
 
 /**
@@ -18,10 +17,8 @@ class WeatherHandler
      */
     public function getWeather($lat, $long) : array
     {
-        // return $this->checkhistoryParams($city, $lat, $long);
-        // $querrieformat = $this->checkParams($city, $lat, $long);
-        $searchParam = '?lat=' . $lat . '&lon=' . $long;
-        return $this->getResponse($searchParam);
+        // $searchParam = '?lat=' . $lat . '&lon=' . $long;
+        return $this->getResponse($lat, $long);
     }
     
     /**
@@ -42,35 +39,17 @@ class WeatherHandler
     }
 
 
-    // /**
-    //  * get args, return correct format of api querrie
-    //  * checks the type of search parameters, city name or coordinates
-    //  */
-    // private function checkParams($city, $lat, $long) : string
-    // {
-    //     if ($city != null) {
-    //         $searchParam = '?q=' . $city;
-    //         return $searchParam;
-    //     }
-    //     else {
-    //         $searchParam = '?lat=' . $lat . '&lon=' . $long;
-    //         return $searchParam;
-    //     }
-    // }
-
-
-
     /**
      * get weather data in chosen position from API
      */
-    private function getResponse($searchParam) : array
+    private function getResponse($lat, $long) : array
     {
         // $access_key = '31e4a45c184fb9ee516a7e276edafb79';
         $key = $this->access_key;
         $url = 'http://api.openweathermap.org/data/2.5/weather';
         
         try {
-            $response = file_get_contents($url . $searchParam . '&appid=' . $key . '&units=metric');
+            $response = file_get_contents($url . '?lat=' . $lat . '&lon=' . $long . '&appid=' . $key . '&units=metric');
 
             $api_result = json_decode($response, true);
 
@@ -81,14 +60,11 @@ class WeatherHandler
 
     }
 
-
-
     /**
-     * get weather for one month back
+     * get weather forecast for one week
      */
     private function getForecastResponse($lat, $long) : array
     {
-        // 'https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689&exclude=hourly,daily&appid={API key}';
         $url = 'https://api.openweathermap.org/data/2.5/onecall';
         // exclude params: current,minutely,hourly,daily,alerts
         $key = $this->access_key;
@@ -111,39 +87,9 @@ class WeatherHandler
         }
     }
 
-
-    // private function getHistoricalResponse($lat, $long) : array
-    // {
-    //     $key = $this->access_key;
-    //     $url = 'http://api.openweathermap.org/data/2.5/onecall/timemachine';
-    //     // exclude params: current,minutely,hourly,daily,alerts
-    //     // days = unix time dag 1-5
-
-    //     $currentTime = time();
-    //     $day1 =($currentTime + ((24*60*60)*1))
-    //     $day2 =($currentTime + ((24*60*60)*2))
-    //     $day3 =($currentTime + ((24*60*60)*3))
-    //     $day4 =($currentTime + ((24*60*60)*4))
-    //     $day5 =($currentTime + ((24*60*60)*5))
-    //     $timeList = [$day1, $day2, $day3, $day4, $day5];
-
-    //     try {
-    //         // Initialize CURL:
-    //         $ch = curl_init($url . '?lat=' . $lat . '&lon=' . $long . '&dt=' . $time . '&appid=' . $key . '&units=metric');
-    //         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-    //         // Store the data:
-    //         $json = curl_exec($ch);
-    //         curl_close($ch);
-
-    //         // Decode JSON response:
-    //         $api_result = json_decode($json, true);
-
-    //         return $api_result;
-    //     } catch (\Throwable $th) {
-    //         return ["could connect to openweathermap"];
-    //     }
-    // }
+    /**
+     * get weather data of the last 5 days with multi-curl
+     */
     private function getHistoricalResponse($lat, $long) : array
     {
         $key = $this->access_key;
@@ -152,12 +98,12 @@ class WeatherHandler
             CURLOPT_RETURNTRANSFER => true,
         ];
         $currentTime = time();
-        $day1 =($currentTime - ((24*60*60)*1));
-        $day2 =($currentTime - ((24*60*60)*2));
-        $day3 =($currentTime - ((24*60*60)*3));
-        $day4 =($currentTime - ((24*60*60)*4));
-        $day5 =($currentTime - ((24*60*60)*5));
-        $timeList = [$day1, $day2, $day3, $day4, $day5];
+        $day1 = ($currentTime - ((24*60*60)*1));
+        $day2 = ($currentTime - ((24*60*60)*2));
+        $day3 = ($currentTime - ((24*60*60)*3));
+        $day4 = ($currentTime - ((24*60*60)*4));
+        $day5 = ($currentTime - ((24*60*60)*5));
+        $timeList = [$currentTime, $day1, $day2, $day3, $day4, $day5];
 
 
         // Add all curl handlers and remember them
@@ -165,7 +111,6 @@ class WeatherHandler
         $mh = curl_multi_init();
         $chAll = [];
         foreach ($timeList as $time) {
-            // $ch = curl_init("$url . $maptype . '/' . $zoom . '/' . $lat . '/' . $long . '&type=day' . '&dt=' . $date . '&appid=' . $access_key . '&units=metric'");
             $ch = curl_init($url . '?lat=' . $lat . '&lon=' . $long . '&dt=' . $time . '&appid=' . $key . '&units=metric');
             curl_setopt_array($ch, $options);
             curl_multi_add_handle($mh, $ch);
@@ -185,7 +130,7 @@ class WeatherHandler
         }
         curl_multi_close($mh);
 
-        // All of our requests are done, we can now access the results
+        // All of our requests are done, access the results
         $response = [];
         foreach ($chAll as $ch) {
             $data = curl_multi_getcontent($ch);

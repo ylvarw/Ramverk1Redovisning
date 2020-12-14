@@ -32,7 +32,8 @@ class WeatherController implements ContainerInjectableInterface
         $userIp = $ip->getUserIp();
 
 
-        if ($SearchIP) {            
+        if ($SearchIP) {     
+            $contentText = "Kolla dagens väder ";
             // $weatherdata = $weather->getWeather($city, $latitude, $longitude);
             if ($ip->ipIsValid($useip)) {
                 $ipPosition = $geo->getPosition($useip);
@@ -53,6 +54,8 @@ class WeatherController implements ContainerInjectableInterface
 
 
         if ($forecast) {
+            $contentText = "kommande 7 dagarnas väder";
+
             //make check for valid Ip
             if ($ip->ipIsValid($useip)) {
                 $ipPosition = $geo->getPosition($useip);
@@ -69,6 +72,7 @@ class WeatherController implements ContainerInjectableInterface
 
 
         if ($SearchHistoryIP) {
+            $contentText = "Senaste dagarnas väder";
 
             if ($ip->ipIsValid($useip)) {
                 $ipPosition = $geo->getPosition($useip);
@@ -88,7 +92,7 @@ class WeatherController implements ContainerInjectableInterface
 
         $page->add("weather/weather", [
             // "content" => "kolla väder med ip-address eller ortnamn",
-            "content" => "Kolla väder med ip-address",
+            "content" => $contentText,
             "ipPosition" => $coordinates ?? null,
             "latitude" => $latitude ?? null,
             "longitude" => $longitude ?? null,

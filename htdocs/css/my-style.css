@@ -7001,6 +7001,10 @@
     cursor: pointer;
   }
   
+  .leafletmap {
+    height: 180px;
+  }
+  
   .site-footer {
     padding-bottom: 0px;
   }
