@@ -16,10 +16,10 @@ class WeatherController implements ContainerInjectableInterface
 
     public function indexAction() : object
     {
-        // $ip = new IpHandler();
         $geo = new IpPosition();
         $weather = new WeatherHandler();
 
+        // get ipHandler from Di
         $ip = $this->di->get("ipHandler");
         $page = $this->di->get("page");
         $request = $this->di->get("request");
@@ -32,26 +32,20 @@ class WeatherController implements ContainerInjectableInterface
         $userIp = $ip->getUserIp();
 
 
-        if ($SearchIP) {
-            // $city = null;
-
-            $ipPosition = $geo->getPosition($useip);
-            $latitude = $ipPosition['latitude'];
-            $longitude = $ipPosition['longitude'];
-            $city = $ipPosition['city'];
-            $coordinates = 'Latitude: '.$latitude . ' ' . 'Longitude: ' . $longitude;
-            
+        if ($SearchIP) {            
             // $weatherdata = $weather->getWeather($city, $latitude, $longitude);
             if ($ip->ipIsValid($useip)) {
-                // try {
+                $ipPosition = $geo->getPosition($useip);
+                $latitude = $ipPosition['latitude'];
+                $longitude = $ipPosition['longitude'];
+                $city = $ipPosition['city'];
+                $coordinates = 'Latitude: '.$latitude . ' ' . 'Longitude: ' . $longitude;
+                
                 $weatherdata = $weather->getWeather($latitude, $longitude);
                 $selectedWeather = $weatherdata['weather'];
                 $descriptionWeather = $weatherdata['weather'][0]['description'];
                 $selectedtemp = $weatherdata['main'];
                 $selectedtwind = $weatherdata['wind'];
-                // } catch (\Throwable $th){
-                //     $noData = "No weather data, could not connect to api";
-                // }
             } else {
                 $noData = "Could not find weather data, not a valid IP";
             }
@@ -59,25 +53,15 @@ class WeatherController implements ContainerInjectableInterface
 
 
         if ($forecast) {
-            // $city = null;
-
-            $ipPosition = $geo->getPosition($useip);
-            $latitude = $ipPosition['latitude'];
-            $longitude = $ipPosition['longitude'];
-            $city = $ipPosition['city'];
-            $coordinates = 'Latitude: '.$latitude . ' ' . 'Longitude: ' . $longitude;
-            
-            // $weatherdata = $weather->getWeather($city, $latitude, $longitude);
+            //make check for valid Ip
             if ($ip->ipIsValid($useip)) {
-                // try {
+                $ipPosition = $geo->getPosition($useip);
+                $latitude = $ipPosition['latitude'];
+                $longitude = $ipPosition['longitude'];
+                $city = $ipPosition['city'];
+                $coordinates = 'Latitude: '.$latitude . ' ' . 'Longitude: ' . $longitude;
+                
                 $forecastData = $weather->getForecastWeather($latitude, $longitude);
-                // $selectedWeather = $weatherdata['weather'];
-                // $descriptionWeather = $weatherdata['weather'][0]['description'];
-                // $selectedtemp = $weatherdata['main'];
-                // $selectedtwind = $weatherdata['wind'];
-                // } catch (\Throwable $th){
-                //     $noData = "No weather data, could not connect to api";
-                // }
             } else {
                 $noData = "Could not find weather data, not a valid IP";
             }
@@ -85,29 +69,22 @@ class WeatherController implements ContainerInjectableInterface
 
 
         if ($SearchHistoryIP) {
-            // $city = null;
 
-            $ipPosition = $geo->getPosition($useip);
-            $latitude = $ipPosition['latitude'];
-            $longitude = $ipPosition['longitude'];
-            $city = $ipPosition['city'];
-            $coordinates = 'Latitude: '.$latitude . ' ' . 'Longitude: ' . $longitude;
-            
-            // $weatherdata = $weather->getWeather($city, $latitude, $longitude);
             if ($ip->ipIsValid($useip)) {
-                // try {
+                $ipPosition = $geo->getPosition($useip);
+                $latitude = $ipPosition['latitude'];
+                $longitude = $ipPosition['longitude'];
+                $city = $ipPosition['city'];
+                $coordinates = 'Latitude: '.$latitude . ' ' . 'Longitude: ' . $longitude;
+                
                 $weatherHistorydata = $weather->getHistoryWeather($latitude, $longitude);
-                // $selectedWeather = $weatherdata['weather'];
-                // $descriptionWeather = $weatherdata['weather'][0]['description'];
-                // $selectedtemp = $weatherdata['main'];
-                // $selectedtwind = $weatherdata['wind'];
-                // } catch (\Throwable $th){
-                //     $noData = "No weather data, could not connect to api";
-                // }
+                // $weatherHistorydata = json_encode($weatherData, JSON_PRETTY_PRINT);
+                // $weatherHistorydata = json_encode($weatherData);
             } else {
                 $noData = "Could not find weather data, not a valid IP";
             }
         }
+
 
         $page->add("weather/weather", [
             // "content" => "kolla väder med ip-address eller ortnamn",
