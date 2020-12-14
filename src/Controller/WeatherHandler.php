@@ -10,6 +10,9 @@ namespace Ylvan\Controller;
  */
 class WeatherHandler
 {
+    private $access_key='31e4a45c184fb9ee516a7e276edafb79';
+
+
     /**
      * get pressent weather data
      */
@@ -41,6 +44,7 @@ class WeatherHandler
 
     // /**
     //  * get args, return correct format of api querrie
+    //  * checks the type of search parameters, city name or coordinates
     //  */
     // private function checkParams($city, $lat, $long) : string
     // {
@@ -61,11 +65,12 @@ class WeatherHandler
      */
     private function getResponse($searchParam) : array
     {
-        $access_key = '31e4a45c184fb9ee516a7e276edafb79';
+        // $access_key = '31e4a45c184fb9ee516a7e276edafb79';
+        $key = $this->access_key;
         $url = 'http://api.openweathermap.org/data/2.5/weather';
         
         try {
-            $response = file_get_contents($url . $searchParam . '&appid=' . $access_key . '&units=metric');
+            $response = file_get_contents($url . $searchParam . '&appid=' . $key . '&units=metric');
 
             $api_result = json_decode($response, true);
 
@@ -83,17 +88,14 @@ class WeatherHandler
      */
     private function getForecastResponse($lat, $long) : array
     {
-        // api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}        // city name search:
-        $numberOfDays = 5;
-        $access_key = '31e4a45c184fb9ee516a7e276edafb79';
-        $url = 'api.openweathermap.org/data/2.5/forecast/daily';
+        // 'https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689&exclude=hourly,daily&appid={API key}';
+        $url = 'https://api.openweathermap.org/data/2.5/onecall';
+        // exclude params: current,minutely,hourly,daily,alerts
+        $key = $this->access_key;
 
         try {
-            // $response = callAPI('GET', 'https://api.example.com/get_url/'.$user['User']['customer_id'], false);
-            // $response = file_get_contents($url . '?lat=' . $lat . '&lon=' . $long . '&cnt=' . $numberOfDays . '&appid=' . $access_key);
-            // $api_result = json_decode($response, true);
             // Initialize CURL:
-            $ch = curl_init($url . '?lat=' . $lat . '&lon=' . $long . '&cnt=5' . '&appid=' . $access_key);
+            $ch = curl_init($url . '?lat=' . $lat . '&lon=' . $long . '&exclude=current,minutely,hourly,alerts' . '&appid=' . $key . '&units=metric');
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
             // Store the data:
@@ -110,57 +112,61 @@ class WeatherHandler
     }
 
 
+    // private function getHistoricalResponse($lat, $long) : array
+    // {
+    //     $key = $this->access_key;
+    //     $url = 'http://api.openweathermap.org/data/2.5/onecall/timemachine';
+    //     // exclude params: current,minutely,hourly,daily,alerts
+    //     // days = unix time dag 1-5
+
+    //     $currentTime = time();
+    //     $day1 =($currentTime + ((24*60*60)*1))
+    //     $day2 =($currentTime + ((24*60*60)*2))
+    //     $day3 =($currentTime + ((24*60*60)*3))
+    //     $day4 =($currentTime + ((24*60*60)*4))
+    //     $day5 =($currentTime + ((24*60*60)*5))
+    //     $timeList = [$day1, $day2, $day3, $day4, $day5];
+
+    //     try {
+    //         // Initialize CURL:
+    //         $ch = curl_init($url . '?lat=' . $lat . '&lon=' . $long . '&dt=' . $time . '&appid=' . $key . '&units=metric');
+    //         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    //         // Store the data:
+    //         $json = curl_exec($ch);
+    //         curl_close($ch);
+
+    //         // Decode JSON response:
+    //         $api_result = json_decode($json, true);
+
+    //         return $api_result;
+    //     } catch (\Throwable $th) {
+    //         return ["could connect to openweathermap"];
+    //     }
+    // }
     private function getHistoricalResponse($lat, $long) : array
     {
-        $access_key = '31e4a45c184fb9ee516a7e276edafb79';
-        // $maptype = 'TA2';
-        // $zoom = '1';
-        // $url = 'http://api.openweathermap.org/data/2.5/aggregated/month';
-        // $url = 'http://maps.openweathermap.org/maps/2.0/weather/{op}/{z}/{x}/{y}&appid={API key}';
-        // $url = 'http://api.openweathermap.org/data/2.5/onecall/timemachine';
-        $url = 'http://maps.openweathermap.org/maps/2.0/weather/';
-        // $url = 'http://history.openweathermap.org/data/2.5/history/city';
-        // '?lat={lat}&lon={lon}&type=hour&start={start}&end={end}&appid={API key}';
-        // $url = 'http://history.openweathermap.org/data/2.5/history/city?lat={lat}&lon={lon}&type=hour&start={start}&end={end}&appid={API key}';
+        $key = $this->access_key;
+        $url = 'http://api.openweathermap.org/data/2.5/onecall/timemachine';
         $options = [
             CURLOPT_RETURNTRANSFER => true,
         ];
-        $days = [];
-
-        $start = mktime(strtotime("Today"));
-        $end = date_sub($start, date_interval_create_from_date_string("5 days"));;
-        // $end = time() - (5);
-        // $start = date("Y/m/d");
-        // $start = mktime(month, day, year);
-        // $start = date("F d, Y h:i:s A", $timestamp);
-        // $start = strtotime("Today");
-        // $end = strtotime("-5 days", $start);
-        
-        // $days[] = $start;
-
-        while ($start > $end) {
-            // try {
-            //     $response = file_get_contents($url . '?lat=' . $lat . '&lon=' . $long . '&type=day' . '&date=' . $start . '&appid=' . $access_key . '&units=metric');
-
-            //     $api_result = json_decode($response, true);
-
-            //     return $api_result;
-            // } catch (\Throwable $th) {
-            //     return "could not fetch data";
-            // }
-            $start = date_sub($start, date_interval_create_from_date_string("1 day"));
-            // $start = strtotime("-1 day", $start);
-            $days[] = $start;
-        }
+        $currentTime = time();
+        $day1 =($currentTime - ((24*60*60)*1));
+        $day2 =($currentTime - ((24*60*60)*2));
+        $day3 =($currentTime - ((24*60*60)*3));
+        $day4 =($currentTime - ((24*60*60)*4));
+        $day5 =($currentTime - ((24*60*60)*5));
+        $timeList = [$day1, $day2, $day3, $day4, $day5];
 
 
-        // // Add all curl handlers and remember them
-        // // Initiate the multi curl handler
+        // Add all curl handlers and remember them
+        // Initiate the multi curl handler
         $mh = curl_multi_init();
         $chAll = [];
-        foreach ($days as $date) {
+        foreach ($timeList as $time) {
             // $ch = curl_init("$url . $maptype . '/' . $zoom . '/' . $lat . '/' . $long . '&type=day' . '&dt=' . $date . '&appid=' . $access_key . '&units=metric'");
-            $ch = curl_init("$url . '?lat=' . $lat . '&lon=' . $long . '&dt=' . $date . '&appid=' . $access_key . '&units=metric'");
+            $ch = curl_init($url . '?lat=' . $lat . '&lon=' . $long . '&dt=' . $time . '&appid=' . $key . '&units=metric');
             curl_setopt_array($ch, $options);
             curl_multi_add_handle($mh, $ch);
             $chAll[] = $ch;
