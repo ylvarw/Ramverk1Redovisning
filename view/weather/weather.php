@@ -30,11 +30,7 @@ namespace Anax\View;
     <input type="submit" name="forecast" value="kommande prognos">
 </form>
 <br>
-<!-- <form method="post">
-    Ort: <input type="text" name="city" placeholder="<?= $placeholderCity ?>,SE"">
-    <input type="submit" name="searchCity" value="sök">
-    <input type="submit" name="searchHistoryCity" value="historisk data">
-</form> -->
+
 
 <!-- <p><b>testvar: </b> <?= $testvar ?> </p> -->
 <h3> <?= $content ?> </h3>
@@ -67,10 +63,8 @@ namespace Anax\View;
     <p><b>Plats: </b> <?= $city ?>, <?= $coordinates ?> </p>
     <?php foreach ($forecastData["daily"] as $data) : ?>
             <p>
-                <!-- Data:  <?= json_encode($data) ?>  -->
                 <br>
                 <b>Datum:</b> <?= date("Y-m-d", json_encode($data["dt"])); ?>
-                <!-- <b>Datum:</b> <?= json_encode($data["dt"]); ?> -->
                 <br>
                 Dagens väder:  <?= json_encode($data["weather"][0]["description"]) ?> 
                 <br>
@@ -89,21 +83,14 @@ namespace Anax\View;
 
 <?php if ($weatherHistorydata) : ?>
         <p><b>Plats: </b> <?= $city ?>, <?= $coordinates ?> </p>
-        <!-- <p><?= json_encode($weatherHistorydata) ?> </p> -->
         <?php foreach ($weatherHistorydata as $index => $data) : ?>
             <p>
-                <!-- Data:  <?= json_encode($data) ?>  -->
                 <br>
                 <b>Datum:</b> <?= date("Y-m-d", json_encode($data["current"]["dt"])); ?>
-                <!-- <b>Datum:</b> <?= json_encode($data["dt"]); ?> -->
                 <br>
                 Dagens väder:  <?= json_encode($data["current"]["weather"][0]["description"]) ?> 
                 <br>
                 Temperatur: <?= json_encode($data["current"]["temp"]) ?> C
-                <!-- <br>
-                Max: <?= json_encode($data["current"]["temp"]) ?> C
-                <br>
-                Min: <?= json_encode($data["current"]["temp"]) ?> C -->
                 <br>
                 Luftfuktighet: <?= json_encode($data["current"]["humidity"]) ?>%
                 <br>
