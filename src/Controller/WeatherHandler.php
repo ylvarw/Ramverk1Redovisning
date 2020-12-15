@@ -55,7 +55,7 @@ class WeatherHandler
 
             return $api_result;
         } catch (\Throwable $th) {
-            return ["could connect to openweathermap"];
+            return ["could not connect to openweathermap"];
         }
 
     }
@@ -65,6 +65,9 @@ class WeatherHandler
      */
     private function getForecastResponse($lat, $long) : array
     {
+        //openweathermap documentation
+        // https://openweathermap.org/api/one-call-api
+
         $url = 'https://api.openweathermap.org/data/2.5/onecall';
         // exclude params: current,minutely,hourly,daily,alerts
         $key = $this->access_key;
@@ -83,7 +86,7 @@ class WeatherHandler
 
             return $api_result;
         } catch (\Throwable $th) {
-            return ["could connect to openweathermap"];
+            return ["could not connect to openweathermap"];
         }
     }
 
@@ -92,6 +95,8 @@ class WeatherHandler
      */
     private function getHistoricalResponse($lat, $long) : array
     {
+        //openweathermap documentation
+        // https://openweathermap.org/api/one-call-api#history
         $key = $this->access_key;
         $url = 'http://api.openweathermap.org/data/2.5/onecall/timemachine';
         $options = [
@@ -110,33 +115,38 @@ class WeatherHandler
         // Initiate the multi curl handler
         $mh = curl_multi_init();
         $chAll = [];
-        foreach ($timeList as $time) {
-            $ch = curl_init($url . '?lat=' . $lat . '&lon=' . $long . '&dt=' . $time . '&appid=' . $key . '&units=metric');
-            curl_setopt_array($ch, $options);
-            curl_multi_add_handle($mh, $ch);
-            $chAll[] = $ch;
+        try {
+            foreach ($timeList as $time) {
+                $ch = curl_init($url . '?lat=' . $lat . '&lon=' . $long . '&dt=' . $time . '&appid=' . $key . '&units=metric');
+                curl_setopt_array($ch, $options);
+                curl_multi_add_handle($mh, $ch);
+                $chAll[] = $ch;
+            }
+
+            // Execute all queries simultaneously,
+            // and continue when all are complete
+            $running = null;
+            do {
+                curl_multi_exec($mh, $running);
+            } while ($running);
+
+            // Close the handles
+            foreach ($chAll as $ch) {
+                curl_multi_remove_handle($mh, $ch);
+            }
+            curl_multi_close($mh);
+
+            // All of our requests are done, access the results
+            $response = [];
+            foreach ($chAll as $ch) {
+                $data = curl_multi_getcontent($ch);
+                $response[] = json_decode($data, true);
+            }
+
+            return $response;
+
+        } catch (\Throwable $th) {
+            return ["could not connect to openweathermap"];
         }
-
-        // Execute all queries simultaneously,
-        // and continue when all are complete
-        $running = null;
-        do {
-            curl_multi_exec($mh, $running);
-        } while ($running);
-
-        // Close the handles
-        foreach ($chAll as $ch) {
-            curl_multi_remove_handle($mh, $ch);
-        }
-        curl_multi_close($mh);
-
-        // All of our requests are done, access the results
-        $response = [];
-        foreach ($chAll as $ch) {
-            $data = curl_multi_getcontent($ch);
-            $response[] = json_decode($data, true);
-        }
-
-        return $response;
     }
 }
