@@ -18,6 +18,7 @@ class WeatherController implements ContainerInjectableInterface
     {
         $geo = new IpPosition();
         $weather = new WeatherHandler();
+        $map = new Map();
 
         // get ipHandler from Di
         $ip = $this->di->get("ipHandler");
@@ -31,9 +32,11 @@ class WeatherController implements ContainerInjectableInterface
         $useip = $request->getPOST("ip", null);
         $userIp = $ip->getUserIp();
 
+        $contentText = "Välj Ip och väder att visa";
+
 
         if ($SearchIP) {     
-            $contentText = "Kolla dagens väder ";
+            $contentText = "Dagens väder";
             // $weatherdata = $weather->getWeather($city, $latitude, $longitude);
             if ($ip->ipIsValid($useip)) {
                 $ipPosition = $geo->getPosition($useip);
@@ -47,6 +50,7 @@ class WeatherController implements ContainerInjectableInterface
                 $descriptionWeather = $weatherdata['weather'][0]['description'];
                 $selectedtemp = $weatherdata['main'];
                 $selectedtwind = $weatherdata['wind'];
+                $locationMap = $map->getMap($latitude, $longitude);
             } else {
                 $noData = "Could not find weather data, not a valid IP";
             }
@@ -65,6 +69,7 @@ class WeatherController implements ContainerInjectableInterface
                 $coordinates = 'Latitude: '.$latitude . ' ' . 'Longitude: ' . $longitude;
                 
                 $forecastData = $weather->getForecastWeather($latitude, $longitude);
+                $locationMap = $map->getMap($latitude, $longitude);
             } else {
                 $noData = "Could not find weather data, not a valid IP";
             }
@@ -82,8 +87,7 @@ class WeatherController implements ContainerInjectableInterface
                 $coordinates = 'Latitude: '.$latitude . ' ' . 'Longitude: ' . $longitude;
                 
                 $weatherHistorydata = $weather->getHistoryWeather($latitude, $longitude);
-                // $weatherHistorydata = json_encode($weatherData, JSON_PRETTY_PRINT);
-                // $weatherHistorydata = json_encode($weatherData);
+                $locationMap = $map->getMap($latitude, $longitude);
             } else {
                 $noData = "Could not find weather data, not a valid IP";
             }
@@ -107,7 +111,8 @@ class WeatherController implements ContainerInjectableInterface
             "weatherdata" => $weatherdata ?? null,
             "noData" => $noData ?? null,
             "weatherHistorydata" => $weatherHistorydata ?? null,
-            "forecastData" => $forecastData ?? null
+            "forecastData" => $forecastData ?? null,
+            "map" => $locationMap ?? null
         ]);
 
         $title = "Sök väder";
