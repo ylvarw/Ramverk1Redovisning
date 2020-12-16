@@ -18,7 +18,7 @@ class WeatherController implements ContainerInjectableInterface
     {
         $geo = new IpPosition();
         $weather = new WeatherHandler();
-        $map = new Map();
+        // $map = new Map();
 
         // get ipHandler from Di
         $ip = $this->di->get("ipHandler");
@@ -50,7 +50,7 @@ class WeatherController implements ContainerInjectableInterface
                 $descriptionWeather = $weatherdata['weather'][0]['description'];
                 $selectedtemp = $weatherdata['main'];
                 $selectedtwind = $weatherdata['wind'];
-                $locationMap = $map->getMap($latitude, $longitude);
+                $locationMap = $weather->getWeatherMap($latitude, $longitude);
             } else {
                 $noData = "Could not find weather data, not a valid IP";
             }
@@ -69,7 +69,7 @@ class WeatherController implements ContainerInjectableInterface
                 $coordinates = 'Latitude: '.$latitude . ' ' . 'Longitude: ' . $longitude;
                 
                 $forecastData = $weather->getForecastWeather($latitude, $longitude);
-                $locationMap = $map->getMap($latitude, $longitude);
+                $locationMap = $weather->getWeatherMap($latitude, $longitude);
             } else {
                 $noData = "Could not find weather data, not a valid IP";
             }
@@ -87,7 +87,7 @@ class WeatherController implements ContainerInjectableInterface
                 $coordinates = 'Latitude: '.$latitude . ' ' . 'Longitude: ' . $longitude;
                 
                 $weatherHistorydata = $weather->getHistoryWeather($latitude, $longitude);
-                $locationMap = $map->getMap($latitude, $longitude);
+                $locationMap = $weather->getWeatherMap($latitude, $longitude);
             } else {
                 $noData = "Could not find weather data, not a valid IP";
             }
