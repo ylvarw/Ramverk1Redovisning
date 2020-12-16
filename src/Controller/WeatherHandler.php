@@ -149,4 +149,50 @@ class WeatherHandler
             return ["could not connect to openweathermap"];
         }
     }
+
+
+     
+    /**
+     * get pressent weather map
+     */
+    public function getWeatherMap($lat, $long) : array
+    {
+        // $searchParam = '?lat=' . $lat . '&lon=' . $long;
+        return $this->requestWeatheMap($lat, $long);
+    }
+
+
+    
+    /**
+     * get weather forecast for one week
+     */
+    private function requestWeatheMap($lat, $long) : array
+    {
+        //openweathermap documentation
+        // https://openweathermap.org/api/weathermaps
+
+        $url = 'https://tile.openweathermap.org/map/';
+        $key = $this->access_key;
+
+        // {layer}/{z}/{x}/{y}.png?appid={API key}
+        $params = 'clouds_new/3/'.$lat.'/'.$long.'.png?';
+
+        try {
+            // Initialize CURL:
+            $ch = curl_init($url . $params . '&appid=' . $key);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            // Store the data:
+            $json = curl_exec($ch);
+            curl_close($ch);
+
+            // Decode JSON response:
+            $api_result = json_decode($json, true);
+
+            return $api_result;
+        } catch (\Throwable $th) {
+            return ["could not connect to openweathermap"];
+        }
+    }
+
 }
