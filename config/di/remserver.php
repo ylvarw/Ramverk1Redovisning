@@ -6,7 +6,7 @@ return [
     "services" => [
         "remserver" => [
             "shared" => true,
-            "callback" => function () {
+            "callback" => function() {
                 $rem = new \Anax\RemServer\RemServer();
                 $rem->injectSession($this->get("session"));
 
