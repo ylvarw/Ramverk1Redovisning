@@ -16,11 +16,11 @@ sudo: false
 git:
     submodules: false
 
-# before_script:
-    # - make install check
+before_script:
+    - make install check
 
-# script:
-#     - make test
+script:
+    - make test
 
 # notifications:
 #     irc: "irc.freenode.org#dbwebb"
