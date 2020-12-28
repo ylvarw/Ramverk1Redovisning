@@ -14,8 +14,8 @@ class GeoTagJsonController implements ContainerInjectableInterface
     use ContainerInjectableTrait;
 
 
-
     public function indexActionGet() : object
+    // public function indexActionGet() : array
     {
         $ip = new IpHandler();
         $geo = new IpPosition();
@@ -102,6 +102,7 @@ class GeoTagJsonController implements ContainerInjectableInterface
         }
 
         $json = [
+            "test" => "test",
             "ipPosition" => $ipPosition ?? null,
             "latitude" => $latitude ?? null,
             "longitude" => $longitude ?? null,

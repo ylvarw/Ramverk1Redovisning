@@ -60,16 +60,16 @@ class IpHandler
     public function ipIsValid($ip) : string
     {
         // code for ip check
-        $ipv4 = $this->ipv4($ip);
-        $ipv6 = $this->ipv6($ip);
-        if ($ipv4 == "Validerar" or $ipv6 == "Validerar") {
-            return true;
+        $ip4 = $this->ipv4($ip);
+        $ip6 = $this->ipv6($ip);
+        if ($ip4 == "Validerar" or $ip6 == "Validerar") {
+            return "true";
         } else {
-            return false;
+            return "false";
         }
     }
 
-    
+
     /**
      * check if ip have a domain name
      */

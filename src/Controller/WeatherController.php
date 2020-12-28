@@ -28,8 +28,8 @@ class WeatherController implements ContainerInjectableInterface
         $SearchIP = $request->getPOST("SearchIP", null);
         $SearchHistoryIP = $request->getPOST("SearchHistoryIP", null);
         $forecast = $request->getPOST("forecast", null);
-
         $useip = $request->getPOST("ip", null);
+        
         $userIp = $ip->getUserIp();
 
         $contentText = "Välj Ip och väder att visa";
@@ -38,7 +38,7 @@ class WeatherController implements ContainerInjectableInterface
         if ($SearchIP) {     
             $contentText = "Dagens väder";
             // $weatherdata = $weather->getWeather($city, $latitude, $longitude);
-            if ($ip->ipIsValid($useip)) {
+            if ($ip->ipIsValid($useip) == "true") {
                 $ipPosition = $geo->getPosition($useip);
                 $latitude = $ipPosition['latitude'];
                 $longitude = $ipPosition['longitude'];
@@ -61,7 +61,7 @@ class WeatherController implements ContainerInjectableInterface
             $contentText = "kommande 7 dagarnas väder";
 
             //make check for valid Ip
-            if ($ip->ipIsValid($useip)) {
+            if ($ip->ipIsValid($useip) == "true") {
                 $ipPosition = $geo->getPosition($useip);
                 $latitude = $ipPosition['latitude'];
                 $longitude = $ipPosition['longitude'];
@@ -79,7 +79,7 @@ class WeatherController implements ContainerInjectableInterface
         if ($SearchHistoryIP) {
             $contentText = "Senaste dagarnas väder";
 
-            if ($ip->ipIsValid($useip)) {
+            if ($ip->ipIsValid($useip) == "true") {
                 $ipPosition = $geo->getPosition($useip);
                 $latitude = $ipPosition['latitude'];
                 $longitude = $ipPosition['longitude'];
