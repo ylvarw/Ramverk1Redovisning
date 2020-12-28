@@ -1,6 +1,6 @@
 <?php
 
-namespace Anax\Controller;
+namespace Ylvan\Controller;
 
 use Anax\DI\DIFactoryConfig;
 use PHPUnit\Framework\TestCase;
@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
  */
 class GeotagControllerTest extends TestCase
 {
+
 
     // Create the di container.
     protected $di;
@@ -35,7 +36,7 @@ class GeotagControllerTest extends TestCase
         $di = $this->di;
 
         // Setup the controller
-        $this->controller = new ValidateIpController();
+        $this->controller = new GeotagController();
         $this->controller->setDI($this->di);
         //$this->controller->initialize();
     }
@@ -53,6 +54,77 @@ class GeotagControllerTest extends TestCase
         // $exp = "Validera IP</title>";
         $this->assertIsObject($res);
     }
+
+        /**
+     * Test the route "index".
+     */
+    public function testIndexActioncontent()
+    {
+        $res = $this->controller->indexAction();
+        // $this->assertInstanceOf("\Anax\Response\Response", $res);
+
+        // $body = $res->getBody();
+        // $exp = "Validera IP</title>";
+        $this->assertNotNull($res);
+    }
+
+
+
+    // /**
+    //  * Test the route "index".
+    //  */
+    // public function testIndexAction()
+    // {
+    //     $res = $this->controller->indexActionGet();
+    //     $this->assertInternalType("array", $res);
+
+    //     $json = $res[0];
+    //     $exp = "Validera med JSON";
+    //     $this->assertContains($exp, $json["title"]);
+    // }
+
+    // // Create the di container.
+    // protected $di;
+    // protected $controller;
+
+
+
+    // /**
+    //  * Prepare before each test.
+    //  */
+    // protected function setUp()
+    // {
+    //     global $di;
+
+    //     // Setup di
+    //     $this->di = new DIFactoryConfig();
+    //     $this->di->loadServices(ANAX_INSTALL_PATH . "/config/di");
+
+    //     // Use a different cache dir for unit test
+    //     $this->di->get("cache")->setPath(ANAX_INSTALL_PATH . "/test/cache");
+
+    //     // View helpers uses the global $di so it needs its value
+    //     $di = $this->di;
+
+    //     // Setup the controller
+    //     $this->controller = new GeoTagJsonController();
+    //     $this->controller->setDI($this->di);
+    //     //$this->controller->initialize();
+    // }
+
+
+    // /**
+    //  * Test the route "index".
+    //  */
+    // public function testIndexActionType()
+    // {
+    //     $res = $this->controller->indexActionGet();
+    //     // $this->assertInstanceOf("\Anax\Response\Response", $res);
+
+    //     // $body = $res->getBody();
+    //     // $exp = "Validera IP</title>";
+    //     $this->assertIsObject($res);
+    // }
 
 
     // /**
