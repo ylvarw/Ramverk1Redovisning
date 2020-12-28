@@ -1,26 +1,26 @@
-language: php
+# language: php
 
-php:
-    #- "7.2"
-    - "7.4"
-    - hhvm
-    - nightly
+# php:
+#     #- "7.2"
+#     - "7.4"
+#     - hhvm
+#     - nightly
 
-matrix:
-    allow_failures:
-        - php: nightly
-        - php: hhvm
+# matrix:
+#     allow_failures:
+#         - php: nightly
+#         - php: hhvm
 
-sudo: false
+# sudo: false
 
-git:
-    submodules: false
+# git:
+#     submodules: false
 
-before_script:
-    - make install check
+# before_script:
+#     - make install check
 
-script:
-    - make test
+# script:
+#     - make test
 
 # notifications:
 #     irc: "irc.freenode.org#dbwebb"
