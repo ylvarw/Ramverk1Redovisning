@@ -45,7 +45,7 @@ class IpHandlerTest extends TestCase
         $ipClass = new IpHandler();
         // $ipClass->ipv4();
         $res = $ipClass->ipIsValid("8.8.8.8");
-        $this->assertIsTrue($res);
+        $this->assertContains("true", $res);
     }
 
 
@@ -57,19 +57,18 @@ class IpHandlerTest extends TestCase
         $ipClass = new IpHandler();
         // $ipClass->ipv4();
         $res = $ipClass->ipIsValid("2001:4860:4860::8888");
-        $this->assertIsTrue($res);
+        $this->assertContains("true", $res);
     }
 
 
     /**
      * Test the general validation method using ipv6.
      */
-    public function testIpIsvalidFalse()
+    public function testIpIsvalidFail()
     {
         $ipClass = new IpHandler();
-        // $ipClass->ipv4();
-        $res = $ipClass->ipIsValid("123");
-        $this->assertIsFalse($res);
+        $res = $ipClass->ipIsValid("invalid");
+        $this->assertContains("false", $res);
     }
 
 
@@ -79,7 +78,6 @@ class IpHandlerTest extends TestCase
     public function testIpv4Invalid()
     {
         $ipClass = new IpHandler();
-        // $ipClass->ipv4();
         $res = $ipClass->ipv4("invalid");
         $this->assertContains("Validerar ej", $res);
     }
@@ -91,7 +89,6 @@ class IpHandlerTest extends TestCase
     public function testIpv4Valid()
     {
         $ipClass = new IpHandler();
-        // $ipClass->ipv4();
         $res = $ipClass->ipv4("8.8.8.8");
         $this->assertContains("Validerar", $res);
     }
