@@ -1,10 +1,11 @@
 <?php
 
-namespace Ylvan\Controller;
-
+namespace Ylvan\Models;
 
 /**
  * A class to handle requests for geolocation
+ * @SuppressWarnings(PHPMD.LongVariable)
+ * @SuppressWarnings(PHPMD.ShortVariable)
  */
 class IpPosition
 {
@@ -26,11 +27,11 @@ class IpPosition
      */
     private function connectApi($ip)
     {
-        $access_key = '5d3399b227dff07cac9f896eaa07ea71';
+        $accessKey = '5d3399b227dff07cac9f896eaa07ea71';
         $url = 'http://api.ipstack.com/';
-        $response = file_get_contents($url . $ip . '?access_key=' . $access_key . '&format=1');
-        $api_result = json_decode($response, true);
+        $response = file_get_contents($url . $ip . '?access_key=' . $accessKey . '&format=1');
+        $apiResult = json_decode($response, true);
 
-        return $api_result;
+        return $apiResult;
     }
 }

@@ -5,9 +5,10 @@ namespace Ylvan\Controller;
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
 
-
 /**
- * A controller show position of IP
+ * A controller to show position of IP
+ * @SuppressWarnings(PHPMD.LongVariable)
+ * @SuppressWarnings(PHPMD.ShortVariable)
  */
 class GeotagController implements ContainerInjectableInterface
 {
@@ -15,9 +16,8 @@ class GeotagController implements ContainerInjectableInterface
 
     public function indexAction() : object
     {
-        $ip = new IpHandler();
-        $geo = new IpPosition();
-
+        $ip = $this->di->get("ipHandler");
+        $geo = $this->di->get("ipPosition");
         $page = $this->di->get("page");
         $request = $this->di->get("request");
 
@@ -29,15 +29,13 @@ class GeotagController implements ContainerInjectableInterface
         $longitude = $userPosition['longitude'];
         $city = $userPosition['city'];
         $coordinates = 'Latitude: '.$latitude . ' ' . 'Longitude: ' . $longitude;
-        
-        
+
         $ipv4 = $ip->ipv4($userIp);
         $ipv6 = $ip->ipv6($userIp);
 
         if ($doLocate) {
             $ipv4 = $ip->ipv4($ipAddress);
             $ipv6 = $ip->ipv6($ipAddress);
-
             $domain = $ip->domainName($ipAddress);
             $ipPosition = $geo->getPosition($ipAddress);
             $latitude = $ipPosition['latitude'];
@@ -64,5 +62,4 @@ class GeotagController implements ContainerInjectableInterface
             "title" => $title,
         ]);
     }
-
 }

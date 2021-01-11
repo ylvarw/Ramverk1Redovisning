@@ -1,6 +1,7 @@
 <?php
 
 namespace Anax\View;
+
 /**
  * render ip validation with json
  */
@@ -19,6 +20,3 @@ namespace Anax\View;
 </form>
 
 <p> <?= json_encode($json) ?> </p>
-
-
-

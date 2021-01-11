@@ -1,8 +1,6 @@
 <?php
 
-namespace Anax\Controller;
-
-// namespace Ylvan\Ip;
+namespace Ylvan\Controller;
 
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
@@ -12,16 +10,13 @@ use Anax\Commons\ContainerInjectableTrait;
 // use Anax\Route\Exception\InternalErrorException;
 
 /**
- * A sample JSON controller to show how a controller class can be implemented.
- * The controller will be injected with $di if implementing the interface
- * ContainerInjectableInterface, like this sample class does.
- * The controller is mounted on a particular route and can then handle all
- * requests for that mount point.
+ * A JSON controller to show validation status of an IP
+ * @SuppressWarnings(PHPMD.LongVariable)
+ * @SuppressWarnings(PHPMD.ShortVariable)
  */
 class IpJsonController implements ContainerInjectableInterface
 {
     use ContainerInjectableTrait;
-
 
     public function indexActionGet() : object
     {
@@ -47,7 +42,6 @@ class IpJsonController implements ContainerInjectableInterface
         ];
 
         $page->add("ip/validateJson", $data);
-        // $page->add("anax/v2/article/default", $data);
 
 
         // $title = "Validera IP med JSON";
@@ -85,16 +79,9 @@ class IpJsonController implements ContainerInjectableInterface
             $session->set("ipv6", $ipv6);
             $session->set("domain", $domain);
             $session->set("ipToValidate", $ipToValidate);
-            // $session->set("ipv4", null) = $ipv4;
-            // $session->set("ipv6", null) = $ipv6;
-            // $session->set("domain", null) = $domain;
-            // $session->set("ipToValidate", null) = $ipToValidate;
         }
 
         // Deal with the action and return a response.
-        // $json = [
-        //     "message" => __METHOD__ . ", \$db is {$this->db}",
-        // ];
         $json = [
             "ipToValidate" => $ipToValidate ?? null,
             "ipv4" => $ipv4 ?? null,
@@ -107,56 +94,6 @@ class IpJsonController implements ContainerInjectableInterface
     
 
     /**
-     * This is the index method action, it handles:
-     * GET METHOD mountpoint
-     * GET METHOD mountpoint/
-     * GET METHOD mountpoint/index
-     *
-     * @return array
-     */
-    // public function indexAction() : object
-    // // public function indexActionGet() : array
-    // {
-    //     $page = $this->di->get("page");
-    //     $request = $this->di->get("request");
-    //     // $session = $this->di->get("session");
-
-    //     $ipToValidate = $request->getPOST("ip", null);
-    //     $doValidate = $request->getPOST("doValidate", null);
-
-    //     if ($doValidate) {
-    //         $ipv4 = $this->ipv4($ipToValidate);
-    //         $ipv6 = $this->ipv6($ipToValidate);
-
-
-    //         // check if it's a valid ip of any type
-    //         // if (filter_var($ipToValidate, FILTER_VALIDATE_IP)) {
-    //             // code for domain name check
-    //         $domain = $this->domainName($ipToValidate);
-    //         // }
-    //     }
-    
-    //     // Deal with the action and return a response.
-    //     $json = [
-    //         "ipToValidate" => $ipToValidate ?? null,
-    //         "ipv4" => $ipv4 ?? null,
-    //         "ipv6" => $ipv6 ?? null,
-    //         "domainName" => $domain ?? null
-    //     ];
-
-    //     $page->add("ip/validateJson", [
-    //         "title" => "Validera med JOSN",
-    //         "json" => [$json],
-
-    //     ]);
-
-    //     $title = "Validera IP med JSON";
-    //     return $page->render([
-    //         "title" => $title,
-    //     ]);
-    // }
-
-    /**
      * check if ipv4 is valid
      */
     public function ipv4($ip) : string
@@ -167,9 +104,6 @@ class IpJsonController implements ContainerInjectableInterface
         } else {
             return "Validerar ej";
         }
-
-        // return "checking if $ip is valid ipv4";
-        
     }
 
     /**
@@ -183,8 +117,6 @@ class IpJsonController implements ContainerInjectableInterface
         } else {
             return "Validerar ej";
         }
-        
-        // return "checking if $ip is valid ipv6";
     }
 
     
@@ -199,5 +131,4 @@ class IpJsonController implements ContainerInjectableInterface
             return "ip ej validerad";
         }
     }
-
 }

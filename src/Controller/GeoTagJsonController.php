@@ -5,34 +5,34 @@ namespace Ylvan\Controller;
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
 
-
 /**
  * A controller show position of IP with JSON format
+ * @SuppressWarnings(PHPMD.LongVariable)
+ * @SuppressWarnings(PHPMD.ShortVariable)
  */
 class GeoTagJsonController implements ContainerInjectableInterface
 {
     use ContainerInjectableTrait;
 
 
+
     public function indexActionGet() : object
-    // public function indexActionGet() : array
     {
-        $ip = new IpHandler();
-        $geo = new IpPosition();
+        $ip = $this->di->get("ipHandler");
+        $geo = $this->di->get("ipPosition");
         $page = $this->di->get("page");
         $session = $this->di->session;
 
         $userIp = $ip->getUserIp();
         $useripv4 = $ip->ipv4($userIp);
         $useripv6 = $ip->ipv6($userIp);
-        // $userIp = $ip->domain($userIp);
+        // $userDomain = $ip->domain($userIp);
         $userPosition = $geo->getPosition($userIp);
 
         $ipPosition = $session->get("ipPosition", $userPosition);
         $ipv4 = $session->get("ipv4", $useripv4);
-        $ipv6 = $session->get("ipv6", null);
+        $ipv6 = $session->get("ipv6", $useripv6);
         $domain = $session->get("domain", null);
-        $findIp = $session->get("findIp", null);
 
 
         $json = [
@@ -41,7 +41,7 @@ class GeoTagJsonController implements ContainerInjectableInterface
             "longitude" => $ipPosition['longitude'] ?? null,
             "ipv4" => $ipv4,
             "ipv6" => $ipv6,
-            // "domainName" => $domain
+            "domainName" => $domain,
         ];
 
         $data = [
@@ -50,10 +50,8 @@ class GeoTagJsonController implements ContainerInjectableInterface
         ];
 
         $page->add("ip/jsonlocation", $data);
-        // $page->add("anax/v2/article/default", $data);
 
 
-        // $title = "Validera IP med JSON";
         $title = "Validera IP med JSON";
         return $page->render([
             "title" => $title,
@@ -71,9 +69,9 @@ class GeoTagJsonController implements ContainerInjectableInterface
      */
     public function indexActionPost() : array
     {
-        $ip = new IpHandler();
-        $geo = new GeoTag();
-        // $page = $this->di->get("page");
+        $ip = $this->di->get("ipHandler");
+        $geo = $this->di->get("ipPosition");
+
         $request = $this->di->get("request");
         $session = $this->di->session;
 
@@ -92,7 +90,6 @@ class GeoTagJsonController implements ContainerInjectableInterface
 
             
             $session->set("ipPosition", $ipPosition);
-            // $session->set("ip", $ipPosition);
             $session->set("latitude", $ipPosition);
             $session->set("longitude", $ipPosition);
             $session->set("ipv4", $ipv4);
@@ -102,14 +99,13 @@ class GeoTagJsonController implements ContainerInjectableInterface
         }
 
         $json = [
-            "test" => "test",
             "ipPosition" => $ipPosition ?? null,
             "latitude" => $latitude ?? null,
             "longitude" => $longitude ?? null,
             "ip" => $findIp ?? null,
             "ipv4" => $ipv4 ?? null,
             "ipv6" => $ipv6 ?? null,
-            // "domainName" => $domain ?? null
+            "domainName" => $domain ?? null,
         ];
         return [$json];
     }

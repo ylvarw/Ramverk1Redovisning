@@ -37,5 +37,3 @@ namespace Anax\View;
         <p><b>Domännamn: </b> inget domännamn funnet </p>
     <?php endif; ?>
 <?php endif; ?>
-
-
