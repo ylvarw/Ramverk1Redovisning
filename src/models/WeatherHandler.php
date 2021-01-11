@@ -1,15 +1,15 @@
 <?php
 
-namespace Ylvan\Controller;
-
-
+namespace Ylvan\Models;
 
 /**
  * A class to handle IP
+ * @SuppressWarnings(PHPMD.LongVariable)
+ * @SuppressWarnings(PHPMD.ShortVariable)
  */
 class WeatherHandler
 {
-    private $access_key='31e4a45c184fb9ee516a7e276edafb79';
+    private $accessKey='31e4a45c184fb9ee516a7e276edafb79';
 
 
     /**
@@ -44,20 +44,19 @@ class WeatherHandler
      */
     private function getResponse($lat, $long) : array
     {
-        // $access_key = '31e4a45c184fb9ee516a7e276edafb79';
-        $key = $this->access_key;
+        // $accessKey = '31e4a45c184fb9ee516a7e276edafb79';
+        $key = $this->accessKey;
         $url = 'http://api.openweathermap.org/data/2.5/weather';
         
         try {
             $response = file_get_contents($url . '?lat=' . $lat . '&lon=' . $long . '&appid=' . $key . '&units=metric');
 
-            $api_result = json_decode($response, true);
+            $apiResult = json_decode($response, true);
 
-            return $api_result;
+            return $apiResult;
         } catch (\Throwable $th) {
             return ["could not connect to openweathermap"];
         }
-
     }
 
     /**
@@ -70,7 +69,7 @@ class WeatherHandler
 
         $url = 'https://api.openweathermap.org/data/2.5/onecall';
         // exclude params: current,minutely,hourly,daily,alerts
-        $key = $this->access_key;
+        $key = $this->accessKey;
 
         try {
             // Initialize CURL:
@@ -82,9 +81,9 @@ class WeatherHandler
             curl_close($ch);
 
             // Decode JSON response:
-            $api_result = json_decode($json, true);
+            $apiResult = json_decode($json, true);
 
-            return $api_result;
+            return $apiResult;
         } catch (\Throwable $th) {
             return ["could not connect to openweathermap"];
         }
@@ -97,7 +96,7 @@ class WeatherHandler
     {
         //openweathermap documentation
         // https://openweathermap.org/api/one-call-api#history
-        $key = $this->access_key;
+        $key = $this->accessKey;
         $url = 'http://api.openweathermap.org/data/2.5/onecall/timemachine';
         $options = [
             CURLOPT_RETURNTRANSFER => true,
@@ -144,7 +143,6 @@ class WeatherHandler
             }
 
             return $response;
-
         } catch (\Throwable $th) {
             return ["could not connect to openweathermap"];
         }
@@ -172,7 +170,7 @@ class WeatherHandler
         // https://openweathermap.org/api/weathermaps
 
         $url = 'https://tile.openweathermap.org/map/';
-        $key = $this->access_key;
+        $key = $this->accessKey;
 
         // {layer}/{z}/{x}/{y}.png?appid={API key}
         $params = 'clouds_new/3/'.$lat.'/'.$long.'.png?';
@@ -187,12 +185,11 @@ class WeatherHandler
             curl_close($ch);
 
             // Decode JSON response:
-            $api_result = json_decode($json, true);
+            $apiResult = json_decode($json, true);
 
-            return $api_result;
+            return $apiResult;
         } catch (\Throwable $th) {
             return ["could not connect to openweathermap"];
         }
     }
-
 }

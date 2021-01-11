@@ -1,6 +1,6 @@
 <?php
 
-namespace Anax\Controller;
+namespace Ylvan\Controller;
 
 use Anax\DI\DIFactoryConfig;
 use PHPUnit\Framework\TestCase;
@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
  */
 class GeotagControllerTest extends TestCase
 {
+
 
     // Create the di container.
     protected $di;
@@ -35,7 +36,7 @@ class GeotagControllerTest extends TestCase
         $di = $this->di;
 
         // Setup the controller
-        $this->controller = new ValidateIpController();
+        $this->controller = new GeotagController();
         $this->controller->setDI($this->di);
         //$this->controller->initialize();
     }
@@ -54,112 +55,16 @@ class GeotagControllerTest extends TestCase
         $this->assertIsObject($res);
     }
 
+    /**
+     * Test the route "index".
+     */
+    public function testIndexActioncontent()
+    {
+        $res = $this->controller->indexAction();
+        // $this->assertInstanceOf("\Anax\Response\Response", $res);
 
-    // /**
-    //  * Test the ipv4 validation method.
-    //  */
-    // public function testIpv4Invalid()
-    // {
-    //     $controller = new ValidateIpController();
-    //     // $controller->ipv4();
-    //     $res = $controller->ipv4("invalid");
-    //     $this->assertContains("Validerar ej", $res);
-    // }
-
-
-    // /**
-    //  * Test the ipv4 validation method.
-    //  */
-    // public function testIpv4Valid()
-    // {
-    //     $controller = new ValidateIpController();
-    //     // $controller->ipv4();
-    //     $res = $controller->ipv4("8.8.8.8");
-    //     $this->assertContains("Validerar", $res);
-    // }
-
-
-    // /**
-    //  * Test the ipv4 validation method.
-    //  */
-    // public function testIpv4Type()
-    // {
-    //     $controller = new ValidateIpController();
-    //     // $controller->ipv4();
-    //     $res = $controller->ipv4("8.8.8.8");
-    //     $this->assertIsString($res);
-    // }
-
-
-    // /**
-    //  * Test the ipv6 validation method.
-    //  */
-    // public function testIpv6Invalid()
-    // {
-    //     $controller = new ValidateIpController();
-    //     // $controller->ipv6();
-    //     $res = $controller->ipv6("invalid");
-    //     $this->assertContains("Validerar ej", $res);
-    // }
-
-
-
-    // /**
-    //  * Test the ipv6 validation method.
-    //  */
-    // public function testIpv6Valid()
-    // {
-    //     $controller = new ValidateIpController();
-    //     // $controller->ipv6();
-    //     $res = $controller->ipv6("2001:4860:4860::8888");
-    //     $this->assertContains("Validerar", $res);
-    // }
-
-
-    // /**
-    //  * Test the ipv6 validation method.
-    //  */
-    // public function testIpv6Type()
-    // {
-    //     $controller = new ValidateIpController();
-    //     // $controller->ipv6();
-    //     $res = $controller->ipv6("2001:4860:4860::8888");
-    //     $this->assertIsString($res);
-    // }
-
-
-    // /**
-    //  * Test the domain name checker method.
-    //  */
-    // public function testDomainNameInvalid()
-    // {
-    //     $controller = new ValidateIpController();
-    //     // $controller->domainName();
-    //     $res = $controller->domainName("invalid");
-    //     $this->assertContains("ip ej validerad", $res);
-    // }
-
-
-    // /**
-    //  * Test the domain name checker method.
-    //  */
-    // public function testDomainNameValid()
-    // {
-    //     $controller = new ValidateIpController();
-    //     // $controller->domainName();
-    //     $res = $controller->domainName("8.8.8.8");
-    //     $this->assertContains("dns.google", $res);
-    // }
-
-
-    // /**
-    //  * Test the domain name checker method.
-    //  */
-    // public function testDomainNameType()
-    // {
-    //     $controller = new ValidateIpController();
-    //     // $controller->domainName();
-    //     $res = $controller->domainName("8.8.8.8");
-    //     $this->assertIsString($res);
-    // }
+        // $body = $res->getBody();
+        // $exp = "Validera IP</title>";
+        $this->assertNotNull($res);
+    }
 }

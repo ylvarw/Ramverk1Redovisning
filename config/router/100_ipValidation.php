@@ -12,7 +12,7 @@ return [
         [
             "info" => "A Controller to validate ip.",
             "mount" => "ip/validate",
-            "handler" => "\Anax\Controller\ValidateIpController",
+            "handler" => "\Ylvan\Controller\ValidateIpController",
             // "handler" => "\Ylvan\Ip\ValidateIpController",
         ],
     ]

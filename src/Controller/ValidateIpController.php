@@ -1,12 +1,9 @@
 <?php
-namespace Anax\Controller;
-
-// namespace Ylvan\Ip;
-
+namespace Ylvan\Controller;
 
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
-// use Ylvan\Ip;
+
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
 // use Anax\Route\Exception\InternalErrorException;
@@ -15,6 +12,8 @@ use Anax\Commons\ContainerInjectableTrait;
  * A controller to check if a IP is a valid IPv5 or IPv6 and if it have a domain name.
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.LongVariable)
+ * @SuppressWarnings(PHPMD.ShortVariable)
  */
 class ValidateIpController implements ContainerInjectableInterface
 {

@@ -4,6 +4,8 @@ namespace Ylvan\Models;
 /**
  * A class to handle IP
  * request user IP address, validate Ip
+ * @SuppressWarnings(PHPMD.LongVariable)
+ * @SuppressWarnings(PHPMD.ShortVariable)
  */
 class IpHandler
 {
@@ -63,9 +65,9 @@ class IpHandler
         $ipv4 = $this->ipv4($ip);
         $ipv6 = $this->ipv6($ip);
         if ($ipv4 == "Validerar" or $ipv6 == "Validerar") {
-            return true;
+            return "true";
         } else {
-            return false;
+            return "false";
         }
     }
 
