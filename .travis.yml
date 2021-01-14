@@ -1,0 +1,25 @@
+language: php
+
+php:
+    - "7.2"
+    - "7.3"
+    - "7.4"
+    - hhvm
+    - nightly
+
+matrix:
+    allow_failures:
+        - php: nightly
+        - php: hhvm
+
+sudo: false
+
+git:
+    submodules: false
+
+before_script:
+    - make install check
+    - make install test
+
+script:
+    - make test

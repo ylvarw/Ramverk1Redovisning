@@ -3,4 +3,3 @@
 /vendor
 memory::
 composer.lock
-.travis.yml
