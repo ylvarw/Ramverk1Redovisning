@@ -8,7 +8,9 @@ Travis
 [![Build Status](https://travis-ci.com/ylvarw/Ramverk1Redovisning.svg?branch=main)](https://travis-ci.com/ylvarw/Ramverk1Redovisning)
 
 
-
+CircleCI
 [![ylvarw](https://circleci.com/gh/ylvarw/Ramverk1Redovisning.svg?style=svg)](https://app.circleci.com/pipelines/github/ylvarw/Ramverk1Redovisning?branch=main)
 
-[![ylvarw](https://circleci.com/gh/ylvarw/Ramverk1Redovisning.svg?style=svg)](https://app.circleci.com/pipelines/github/ylvarw/Ramverk1Redovisning?branch=main)
+
+Symfony
+[![SymfonyInsight](https://insight.symfony.com/projects/ecfcb202-30da-49c4-bd4b-7715986a1e52/mini.svg)](https://insight.symfony.com/projects/ecfcb202-30da-49c4-bd4b-7715986a1e52)
