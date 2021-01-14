@@ -18,7 +18,7 @@ git:
     submodules: false
 
 before_script:
-    - make install check
+    # - make install check
     - make install test
 
 script:
