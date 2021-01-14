@@ -8,7 +8,7 @@ Travis
 [![Build Status](https://travis-ci.com/ylvarw/Ramverk1Redovisning.svg?branch=main)](https://travis-ci.com/ylvarw/Ramverk1Redovisning)
 
 
-circleCI
+CircleCI
 [![ylvarw](https://circleci.com/gh/ylvarw/Ramverk1Redovisning.svg?style=svg)](https://app.circleci.com/pipelines/github/ylvarw/Ramverk1Redovisning?branch=main)
 
 
