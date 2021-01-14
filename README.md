@@ -9,4 +9,6 @@ Travis
 
 
 
-[![<ORG_NAME>](https://circleci.com/gh/ylvarw/Ramverk1Redovisning.svg?style=svg)](https://app.circleci.com/pipelines/github/ylvarw/Ramverk1Redovisning?branch=main)
+[![ylvarw](https://circleci.com/gh/ylvarw/Ramverk1Redovisning.svg?style=svg)](https://app.circleci.com/pipelines/github/ylvarw/Ramverk1Redovisning?branch=main)
+
+[![ylvarw](https://circleci.com/gh/ylvarw/Ramverk1Redovisning.svg?style=svg)](https://app.circleci.com/pipelines/github/ylvarw/Ramverk1Redovisning?branch=main)
