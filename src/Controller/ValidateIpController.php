@@ -9,7 +9,8 @@ use Anax\Commons\ContainerInjectableTrait;
 // use Anax\Route\Exception\InternalErrorException;
 
 /**
- * A controller to check if a IP is a valid IPv5 or IPv6 and if it have a domain name.
+ * A controller to check if a IP is a valid IPv5 or IPv6 
+ * check if it have a domain name.
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.LongVariable)
